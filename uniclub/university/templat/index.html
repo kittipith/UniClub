@@ -3,48 +3,188 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="../static/css/output.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:ital,opsz,wght@0,6..12,200..1000;1,6..12,200..1000&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Anuphan:wght@100..700&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
     <style>
         body{
             font-family: "Nunito Sans", "Anuphan";
         }
     </style>
 </head>
-<body class="bg-gradient-to-br from-cyan-100 to-sky-100 flex justify-center items-center min-h-screen">
-    <div class="flex flex-col justify-center items-center mx-auto w-[30%] border border-gray-200 shadow-lg rounded-3xl bg-white">
-        <div class="grid grid-cols-2 w-full">
-            <button class="flex justify-center items-center bg-green-100">Sign in</button>
-            <button>Sig up</button>
-        </div>
-        <div class="w-full p-5">
-            <h1 class="text-[2rem] font-bold text-center">UniClub</h1>
-            <p class="text-center">เข้าสู่ระบบ</p>
-            <div class="mb-4">
-                <label class="block mb-1 text-gray-700 font-medium">Email</label>
-                <div class="flex items-center border border-gray-300 rounded-lg px-4 py-2 focus-within:ring-2 focus-within:ring-sky-200">
-                    <i class="fa-solid fa-envelope text-gray-400 mr-3"></i>
-                    <input type="email" placeholder="Email" class="flex-1 outline-none text-gray-700">
-                </div>
+<body class="bg-gradient-to-br from-amber-400 to-orange-400 flex justify-center items-center min-h-screen">
+    <form action="" id="login" class="w-[30%] my-10">
+        <div class="flex flex-col justify-center items-center mx-auto w-full border border-gray-200 shadow-lg rounded-3xl overflow-hidden">
+            <div class="grid grid-cols-2 w-full">
+                <button type="button" class="flex justify-center items-center py-5 text-[1.5rem] gap-2 text-white bg-white bg-opacity-40">
+                    <i class="fa-solid fa-right-to-bracket"></i>
+                    Sign in
+                </button>
+                <button type="button" onclick="openregis()" class="flex justify-center items-center py-5 text-[1.5rem] gap-2 text-white bg-white bg-opacity-20 hover:bg-opacity-30 transition-colors duration-300">
+                    <i class="fa-solid fa-user-plus"></i>
+                    Sign up
+                </button>
             </div>
-            <div class="mb-6">
-                <label class="block mb-1 text-gray-700 font-medium">Password</label>
-                <div class="flex items-center border border-gray-300 rounded-lg px-4 py-2 focus-within:ring-2 focus-within:ring-sky-200">
-                    <i class="fa-solid fa-lock text-gray-400 mr-3"></i>
-                    <input type="password" placeholder="Password" class="flex-1 outline-none text-gray-700">
+            <div class="w-full p-5 flex flex-col justify-center items-center bg-white">
+                <h1 class="text-[2rem] font-bold text-center">UniClub</h1>
+                <p class="text-center">เข้าสู่ระบบ</p>
+                <div class="mb-4 w-full">
+                    <label class="block mb-1 text-gray-700 font-medium">Email</label>
+                    <div class="flex items-center border border-gray-300 rounded-lg px-4 py-2 focus-within:ring-2 focus-within:ring-amber-200">
+                        <i class="fa-solid fa-envelope text-gray-400 mr-3"></i>
+                        <input type="email" placeholder="Email" class="flex-1 outline-none text-gray-700">
+                    </div>
                 </div>
+                <div class="mb-6 w-full">
+                    <label class="block mb-1 text-gray-700 font-medium">Password</label>
+                    <div class="flex items-center border border-gray-300 rounded-lg px-4 py-2 focus-within:ring-2 focus-within:ring-amber-200">
+                        <i class="fa-solid fa-lock text-gray-400 mr-3"></i>
+                        <input type="password" placeholder="Password" class="flex-1 outline-none text-gray-700">
+                    </div>
+                </div>
+                <a href="#" class="w-full flex justify-end items-end mb-5 text-amber-600 hover:text-amber-800 transition-colors duration-300">ลืมรหัสผ่าน?</a>
+                <a href="main.html" class="w-full">
+                    <button type="button" class="w-full bg-orange-400 text-white text-[1.5rem] font-bold py-3 gap-3 rounded-2xl hover:bg-orange-600 transition-all duration-300 shadow-md">
+                        <i class="fa-solid fa-right-to-bracket"></i>
+                        เข้าสู่ระบบ
+                    </button>
+                </a>
+                <p class="mt-5 text-[1rem]">
+                    <span class="text-gray-600">ยังไม่มีบัญชี?</span>
+                    <a href="#" onclick="openregis()" class="text-orange-500 transition duration-200 ease-in-out hover:underline hover:text-orange-800">สมัครบัญชีที่นี่</a>
+                </p>
             </div>
-            <a href="">ลืมรหัสผ่าน</a>
-            <button>เข้าสู่ระบบ</button>
-            <p>
-                <span>ยังไม่มีบัญชี?</span>
-                <a href="">สมัครบัญชีที่นี่</a>
-            </p>
         </div>
-    </div>
+    </form>
+
+    <form action="" id="regis" class="hidden w-[30%] my-10">
+        <div class="flex flex-col justify-center items-center mx-auto w-full border border-gray-200 shadow-lg rounded-3xl overflow-hidden">
+            <div class="grid grid-cols-2 w-full">
+                <button type="button" onclick="openlogin()" class="flex justify-center items-center py-5 text-[1.5rem] gap-2 text-white bg-white bg-opacity-20 hover:bg-opacity-30 transition-colors duration-300">
+                    <i class="fa-solid fa-right-to-bracket"></i>
+                    Sign in
+                </button>
+                <button type="button" class="flex justify-center items-center py-5 text-[1.5rem] gap-2 text-white bg-white bg-opacity-40">
+                    <i class="fa-solid fa-user-plus"></i>
+                    Sign up
+                </button>
+            </div>
+            <div class="w-full p-5 flex flex-col justify-center items-center bg-white">
+                <h1 class="text-[2rem] font-bold text-center">UniClub</h1>
+                <p class="text-center">สร้างบัญชีใหม่</p>
+                <div class="mb-4 w-full">
+                    <label class="block mb-1 text-gray-700 font-medium">ชื่อ</label>
+                    <div class="flex items-center border border-gray-300 rounded-lg px-4 py-2 focus-within:ring-2 focus-within:ring-amber-200">
+                        <i class="fa-solid fa-user text-gray-400 mr-3"></i>
+                        <input type="text" placeholder="ชื่อ" class="flex-1 outline-none text-gray-700">
+                    </div>
+                </div>
+                <div class="mb-4 w-full">
+                    <label class="block mb-1 text-gray-700 font-medium">นามสกุล</label>
+                    <div class="flex items-center border border-gray-300 rounded-lg px-4 py-2 focus-within:ring-2 focus-within:ring-amber-200">
+                        <i class="fa-solid fa-user text-gray-400 mr-3"></i>
+                        <input type="text" placeholder="นามสกุล" class="flex-1 outline-none text-gray-700">
+                    </div>
+                </div>
+                <div class="mb-4 w-full">
+                    <label class="block mb-1 text-gray-700 font-medium">รหัสนักศึกษา</label>
+                    <div class="flex items-center border border-gray-300 rounded-lg px-4 py-2 focus-within:ring-2 focus-within:ring-amber-200">
+                        <i class="fa-solid fa-id-card text-gray-400 mr-3"></i>
+                        <input type="text" placeholder="รหัสนักศึกษา" class="flex-1 outline-none text-gray-700">
+                    </div>
+                </div>
+                <div class="mb-4 w-full">
+                    <label class="block mb-1 text-gray-700 font-medium">คณะ</label>
+                    <div class="flex items-center border border-gray-300 rounded-lg px-4 py-2 focus-within:ring-2 focus-within:ring-amber-200">
+                        <i class="fa-solid fa-graduation-cap text-gray-400 mr-3"></i>
+                        <select name="" id="" class="flex-1 outline-none text-gray-700 px-3">
+                            <option value="" disabled selected> ----- เลือกคณะ -----</option>
+                            <option value="engineer">คณะวิศวกรรมศาสตร์</option>
+                            <option value="architec">คณะสถาปัตยกรรม ศิลปะและการออกแบบ</option>
+                            <option value="teacher">คณะครุศาสตร์อุตสาหกรรมและเทคโนโลยี</option>
+                            <option value="farmer">คณะเทคโนโลยีการเกษตร</option>
+                            <option value="science">คณะวิทยาศาสตร์</option>
+                            <option value="food">คณะอุตสาหกรรมอาหาร</option>
+                            <option value="it">คณะเทคโนโลยีสารสนเทศ</option>
+                            <option value="ceo">คณะบริหารธุรกิจ</option>
+                            <option value="art">คณะศิลปศาสตร์</option>
+                            <option value="docter">คณะแพทยศาสตร์</option>
+                            <option value="dentist">คณะทันตแพทยศาสตร์</option>
+                            <option value="nurse">คณะพยาบาลศาสตร์</option>
+                            <option value="adap">คณะเทคโนโลยีนวัตกรรมบูรณาการ</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="mb-4 w-full">
+                    <label class="block mb-1 text-gray-700 font-medium">ชั้นปี</label>
+                    <div class="flex items-center border border-gray-300 rounded-lg px-4 py-2 focus-within:ring-2 focus-within:ring-amber-200">
+                        <i class="fa-solid fa-user-graduate text-gray-400 mr-3"></i>
+                        <select name="" id="" class="flex-1 outline-none text-gray-700">
+                            <option value="" disabled selected> ----- เลือกชั้นปี ----- </option>
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                            <option value="5">5</option>
+                            <option value="6">6</option>
+                            <option value="7">7</option>
+                            <option value="8">8</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="mb-4 w-full">
+                    <label class="block mb-1 text-gray-700 font-medium">เบอร์โทรศัพท์</label>
+                    <div class="flex items-center border border-gray-300 rounded-lg px-4 py-2 focus-within:ring-2 focus-within:ring-amber-200">
+                        <i class="fa-solid fa-phone text-gray-400 mr-3"></i>
+                        <input type="text" placeholder="เบอร์โทรศัพท์" class="flex-1 outline-none text-gray-700">
+                    </div>
+                </div>
+                <div class="mb-4 w-full">
+                    <label class="block mb-1 text-gray-700 font-medium">Email</label>
+                    <div class="flex items-center border border-gray-300 rounded-lg px-4 py-2 focus-within:ring-2 focus-within:ring-amber-200">
+                        <i class="fa-solid fa-envelope text-gray-400 mr-3"></i>
+                        <input type="email" placeholder="อีเมลของสถาบัน" class="flex-1 outline-none text-gray-700">
+                    </div>
+                </div>
+                <div class="mb-4 w-full">
+                    <label class="block mb-1 text-gray-700 font-medium">รหัสผ่าน</label>
+                    <div class="flex items-center border border-gray-300 rounded-lg px-4 py-2 focus-within:ring-2 focus-within:ring-amber-200">
+                        <i class="fa-solid fa-lock text-gray-400 mr-3"></i>
+                        <input type="password" placeholder="รหัสผ่าน" class="flex-1 outline-none text-gray-700">
+                    </div>
+                </div>
+                <div class="mb-4 w-full">
+                    <label class="block mb-1 text-gray-700 font-medium">ยืนยันรหัสผ่าน</label>
+                    <div class="flex items-center border border-gray-300 rounded-lg px-4 py-2 focus-within:ring-2 focus-within:ring-amber-200">
+                        <i class="fa-solid fa-lock text-gray-400 mr-3"></i>
+                        <input type="password" placeholder="ยืนยันรหัสผ่าน" class="flex-1 outline-none text-gray-700">
+                    </div>
+                </div>
+                <button type="button" onclick="openlogin()" class="w-full bg-orange-400 text-white text-[1.5rem] font-bold py-3 gap-3 rounded-2xl hover:bg-orange-600 transition-all duration-300 shadow-md my-5">
+                    <i class="fa-solid fa-user-plus"></i>
+                    ยืนยัน
+                </button>
+                <p class="text-[1rem]">
+                    <span class="text-gray-600">มีบัญชีอยู่แล้ว?</span>
+                    <a href="#" onclick="openlogin()" class="text-orange-500 transition duration-200 ease-in-out hover:underline hover:text-orange-800">เข้าสู่ระบบที่นี่</a>
+                </p>
+            </div>
+        </div>
+    </form>
+
+    <script>
+    function openlogin() {
+      document.getElementById("login").classList.remove("hidden");
+      document.getElementById("regis").classList.add("hidden");
+    }
+
+    function openregis() {
+      document.getElementById("regis").classList.remove("hidden");
+      document.getElementById("login").classList.add("hidden");
+    }
+    </script>
 </body>
 </html>

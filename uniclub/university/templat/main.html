@@ -1,0 +1,309 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:ital,opsz,wght@0,6..12,200..1000;1,6..12,200..1000&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Anuphan:wght@100..700&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body{
+            font-family: "Nunito Sans", "Anuphan";
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <div class="flex justify-between items-center bg-white h-20 px-10 py-4 shadow-[0_2px_4px_rgba(0,0,0,0.3)] z-50 transition-all duration-300">
+        <a href="main.html" class="flex justify-center items-center gap-4">
+            <i class="fa-solid fa-paw fa-3x"></i>
+            <h1 class="text-[2.2rem] font-bold">UniClub</h1>
+        </a>
+        <label class="relative inline-block">
+            <input type="checkbox" class="hidden peer" />
+            <p class="w-full h-full flex items-center justify-center gap-2 text-gray-700 text-[1.4rem] font-semibold cursor-pointer">
+                <img src="../static/img/user.png" class="w-12 h-12 rounded-full cursor-pointer">
+            </p>
+            <nav class="absolute right-0 top-[60px] w-[200px] bg-white border border-none rounded-lg shadow-[0_4px_10px_rgba(0,0,0,0.25)] invisible opacity-0 transition-all duration-200 ease-in-out z-10 peer-checked:visible peer-checked:opacity-100">
+                <ul class="list-none p-2 m-0">
+                    <li>
+                        <a href="profile.html" class="flex justify-start items-center gap-4 block w-full px-3 py-2 text-left text-[1rem] font-light rounded-md hover:bg-orange-200 hover:text-white cursor-pointer transition-colors duration-150">
+                            <i class="fa-solid fa-user"></i>
+                            โปรไฟล์
+                        </a>
+                    </li>
+                    <li>
+                        <a href="index.html" class="flex justify-start items-center gap-4 block w-full px-3 py-2 text-left text-[1rem] font-light rounded-md hover:bg-orange-200 hover:text-white cursor-pointer transition-colors duration-150">
+                            <i class="fa-solid fa-right-from-bracket"></i>
+                            Sign Out
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </label>
+    </div>
+
+    <div class="w-[80%] mx-auto grid grid-cols-3 gap-10">
+        <div class="my-10 col-span-2">
+            <h1 class="text-[2rem] font-bold">ยินดีต้อนรับ, กิตติพงศ์!</h1>
+            <p class="text-[1rem] font-light">เยี่ยมชมรมทั้งหมดในมหาวิทยาลัย หรือดูกิจกรรมที่น่าสนใจในแต่ละชมรม</p>
+            <div class="flex flex-col justify-start items-start w-full">
+                <div class="flex justify-between items-cente w-full my-5">
+                    <p class="text-[1.4rem] font-bold">ชมรมทั้งหมด</p>
+                    <button onclick="opennew()" class="flex justify-center items-center gap-5 px-7 py-2 text-white text-[1.3rem] rounded-2xl cursor-pointer bg-orange-500 transition duration-200 ease-in-out hover:bg-orange-700">
+                        <i class="fa-solid fa-plus"></i>
+                        สร้างชมรมใหม่
+                    </button>
+                </div>
+                <div class="w-full flex justify-center gap-3 mb-5 py-5 px-3 bg-white">
+                    <div class="flex items-center border border-gray-200 bg-white rounded-2xl shadow-sm px-4 py-2 w-full">
+                        <i class="fa-solid fa-magnifying-glass text-gray-400 mr-3"></i>
+                        <input type="text" placeholder="ค้นหาชมรมที่ท่านต้องการเข้าร่วม" class="flex-1 outline-none">
+                    </div>
+                    <div class="flex items-center bg-white border border-orange-500 rounded-xl text-orange-500 shadow-sm px-5 py-2 transition duration-200 ease-in-out hover:bg-orange-50">
+                        <a href="#"><button class="cursor-pointer">ค้นหา</button></a>
+                    </div>
+                </div>
+                <div class="w-full grid grid-cols-2 gap-5 m-5">
+                    <div class="border w-full h-[330px] rounded-2xl">
+                        <img src="../static/img/bg1.jpg" class="w-full h-28 object-cover">
+                        <div class="flex flex-col justify-start items-start px-3 py-3">
+                            <h1 class="text-[1.5rem] font-bold">ชมรมดนตรีสากล</h1>
+                            <p class="text-gray-600 text-[1.2rem]">description</p>
+                            <div class="flex justify-between w-full my-5">
+                                <p class="flex justify-center items-center gap-3">
+                                    <i class="fa-solid fa-users"></i>
+                                    สมาชิก 45 คน
+                                </p>
+                                <p class="flex justify-center items-center gap-3">
+                                    <i class="fa-solid fa-location-dot"></i>
+                                    ห้อง502 ตึกโหล
+                                </p>
+                            </div>
+                            <button class="flex justify-center items-center gap-3 w-full text-[1.3rem] text-white font-medium rounded-2xl py-2 px-5 bg-orange-500 cursor-pointer transiton duration-200 ease-in-out hover:bg-orange-700">
+                                <i class="fa-solid fa-user-plus"></i>
+                                สมัครเข้าชมรม
+                            </button>
+                        </div>
+                    </div>
+                    <div class="border w-full h-[330px] rounded-2xl">
+                        <img src="../static/img/bg1.jpg" class="w-full h-28 object-cover">
+                        <div class="flex flex-col justify-start items-start px-3 py-3">
+                            <h1 class="text-[1.5rem] font-bold">ชมรมดนตรีสากล</h1>
+                            <p class="text-gray-600 text-[1.2rem]">description</p>
+                            <div class="flex justify-between w-full my-5">
+                                <p class="flex justify-center items-center gap-3">
+                                    <i class="fa-solid fa-users"></i>
+                                    สมาชิก 45 คน
+                                </p>
+                                <p class="flex justify-center items-center gap-3">
+                                    <i class="fa-solid fa-location-dot"></i>
+                                    ห้อง502 ตึกโหล
+                                </p>
+                            </div>
+                            <button class="flex justify-center items-center gap-3 w-full text-[1.3rem] text-white font-medium rounded-2xl py-2 px-5 bg-orange-500 cursor-pointer transiton duration-200 ease-in-out hover:bg-orange-700">
+                                <i class="fa-solid fa-user-plus"></i>
+                                สมัครเข้าชมรม
+                            </button>
+                        </div>
+                    </div>
+                    <div class="border w-full h-[330px] rounded-2xl">
+                        <img src="../static/img/bg1.jpg" class="w-full h-28 object-cover">
+                        <div class="flex flex-col justify-start items-start px-3 py-3">
+                            <h1 class="text-[1.5rem] font-bold">ชมรมดนตรีสากล</h1>
+                            <p class="text-gray-600 text-[1.2rem]">description</p>
+                            <div class="flex justify-between w-full my-5">
+                                <p class="flex justify-center items-center gap-3">
+                                    <i class="fa-solid fa-users"></i>
+                                    สมาชิก 45 คน
+                                </p>
+                                <p class="flex justify-center items-center gap-3">
+                                    <i class="fa-solid fa-location-dot"></i>
+                                    ห้อง502 ตึกโหล
+                                </p>
+                            </div>
+                            <button class="flex justify-center items-center gap-3 w-full text-[1.3rem] text-white font-medium rounded-2xl py-2 px-5 bg-orange-500 cursor-pointer transiton duration-200 ease-in-out hover:bg-orange-700">
+                                <i class="fa-solid fa-user-plus"></i>
+                                สมัครเข้าชมรม
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+        <div class="grid grid-cols-1 my-10 gap-10">
+            <div class="flex flex-col p-6 border border-gray-200 rounded-2xl shadow-lg bg-white">
+                <div class="flex items-center gap-3 mb-5">
+                    <i class="fa-solid fa-calendar-day text-orange-500 text-[1.4rem]"></i>
+                    <h1 class="text-[1.4rem] font-bold text-gray-800">กิจกรรมล่าสุด</h1>
+                </div>
+                <div class="space-y-4">
+                    <div class="flex justify-start items-center gap-4 p-4 border border-gray-200 rounded-2xl shadow-sm hover:shadow-lg transition-all duration-300 cursor-pointer">
+                        <div class="relative">
+                            <img src="../static/img/bg1.jpg" class="w-14 h-14 rounded-full object-cover border-2">
+                        </div>
+                        <div class="flex-1">
+                            <h1 class="text-[1.2rem] font-bold text-gray-800 mb-1">Workshop Guitar Basic</h1>
+                            <div class="flex items-center gap-2 text-gray-600">
+                                <i class="fa-solid fa-users text-sm"></i>
+                                <p class="text-sm">ชมรมดนตรีสากล</p>
+                                <i class="fa-solid fa-clock text-sm ml-2"></i>
+                                <p class="text-sm">15/08/2025</p>
+                            </div>
+                        </div>
+                        <button onclick="openactivity()" class="bg-orange-500 text-white px-3 py-2 rounded-full tansition-all duration-300 ease-in-out hover:bg-orange-50 hover:border hover:border-orange-500 hover:text-orange-500">
+                            <i class="fa-solid fa-right-long"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="flex flex-col p-6 border border-gray-200 rounded-2xl shadow-lg bg-white">
+                <div class="flex items-center gap-3 mb-5">
+                    <i class="fa-solid fa-heart text-orange-500 text-[1.4rem]"></i>
+                    <h1 class="text-[1.4rem] font-bold text-gray-800">ชมรมของฉัน</h1>
+                </div>
+                <div class="space-y-4">
+                    <div class="flex justify-between items-center p-4 rounded-xl border border-blue-100">
+                        <div class="flex items-center gap-4">
+                            <div class="relative">
+                                <img src="../static/img/bg1.jpg" class="w-14 h-14 rounded-xl object-cover border-2">
+                            </div>
+                            <div>
+                                <h1 class="text-[1.2rem] font-bold text-gray-800 mb-1">ชมรมดนตรีสากล</h1>
+                                <div class="flex items-center gap-3 text-gray-600">
+                                    <div class="flex items-center gap-1">
+                                        <i class="fa-solid fa-users text-sm"></i>
+                                        <p class="text-sm">45 สมาชิก</p>
+                                    </div>
+                                    <div class="flex items-center gap-1">
+                                        <i class="fa-solid fa-star text-yellow-500 text-sm"></i>
+                                        <p class="text-sm">สมาชิก</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="popup" class="hidden fixed inset-0 bg-black bg-opacity-50 backdrop-blur-sm z-50">
+        <div class="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-100 bg-white p-5 rounded-xl flex flex-col justify-center items-start w-[25%] mx-auto shadow-[0_4px_12px_rgba(0,0,0,0.15)]">
+            <div class="flex justify-between w-full mb-5">
+                <h1 class="text-[1.5rem] font-extrabold">สร้างชมรมใหม่</h1>
+                <i class="fa-solid fa-xmark fa-2x text-gray-600 hover:text-red-500 cursor-pointer" onclick="closenew()"></i>
+            </div>
+            <div class="w-full mb-4">
+                <label for="" class="flex items-center gap-3 text-lg">ชื่อชมรม</label>
+                <input type="text" placeholder="กรุณาใส่ชื่อชมรม" class="w-full border-2 border-[#e2e8f0] rounded-2xl text-[1rem] px-5 py-2 transition duration-300 ease-in-out focus:outline-none focus:border-[#3b5bdb] focus:shadow-[0_0_0_4px_rgba(59,91,219,0.1)]" />
+            </div>
+            <div class="mb-4 w-full">
+                <label class="block mb-1 text-gray-700 font-medium">ที่ตั้งห้องชมรม</label>
+                <input type="text" placeholder="กรุณาใส่ห้องชมรมที่ต้องการใช้" class="w-full border-2 border-[#e2e8f0] rounded-2xl text-[1rem] px-5 py-2 transition duration-300 ease-in-out focus:outline-none focus:border-[#3b5bdb] focus:shadow-[0_0_0_4px_rgba(59,91,219,0.1)]" />
+            </div>
+            <div class="mb-4 w-full">
+                <label class="block mb-1 text-gray-700 font-medium">รายละเอียดชมรม</label>
+                <textarea placeholder="รายละเอียดเกี่ยวกับชมรมที่ต้องการสร้าง" class="w-full border-2 border-[#e2e8f0] rounded-2xl text-[1rem] px-5 py-2 transition duration-300 ease-in-out focus:outline-none focus:border-[#3b5bdb] focus:shadow-[0_0_0_4px_rgba(59,91,219,0.1)]"></textarea>
+            </div>
+            <div class="w-full flex justify-end items-end gap-5">
+                <button onclick="closenew()" class="px-7 py-2 bg-white text-orange-500 border border-orange-500 rounded-xl shadow-sm cursor-pointer transition duration-200 ease-in-out hover:bg-orange-50">ยกเลิก</button>
+                <button onclick="closenew()" class="px-7 py-2 bg-orange-500 border border-orange-500 text-white rounded-xl shadow-sm cursor-pointer transition duration-200 ease-in-out hover:bg-orange-700">ยืนยัน</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="activity" class="hidden fixed inset-0 bg-black bg-opacity-50 backdrop-blur-sm z-50">
+        <div class="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-100 bg-white rounded-2xl flex flex-col w-[35%] mx-auto shadow-[0_20px_60px_rgba(0,0,0,0.3)] overflow-hidden">
+            <div class="relative">
+                <img src="../static/img/bg1.jpg" class="w-full h-48 object-cover" alt="กิจกรรมภาพ">
+                <button onclick="closeactivity()" class="absolute top-4 left-4 w-8 h-8 bg-white bg-opacity-80 rounded-full flex items-center justify-center hover:bg-opacity-100 transition-all duration-200">
+                    <i class="fa-solid fa-chevron-left text-gray-700"></i>
+                </button>
+            </div>
+            <div class="p-6 flex-1 overflow-y-auto max-h-[60vh]">
+                <div class="mb-6">
+                    <h1 class="text-[1.8rem] font-bold text-gray-800 mb-2">Workshop Guitar Basic สำหรับมือใหม่</h1>
+                    <div class="flex items-center gap-2">
+                        <div class="w-8 h-8 bg-orange-100 rounded-full flex items-center justify-center">
+                            <i class="fa-solid fa-users text-orange-500 text-sm"></i>
+                        </div>
+                        <span class="text-gray-600 font-medium">ชมรมดนตรีสากล</span>
+                    </div>
+                </div>
+                <div class="grid grid-cols-2 gap-4 mb-6">
+                    <div class="flex items-center gap-3 p-3 bg-gray-50 rounded-xl">
+                        <div class="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center">
+                            <i class="fa-solid fa-calendar-day text-blue-500"></i>
+                        </div>
+                        <div>
+                            <p class="text-sm text-gray-500">วันที่</p>
+                            <p class="font-semibold text-gray-800">15 สิงหาคม 2025</p>
+                        </div>
+                    </div>
+                    <div class="flex items-center gap-3 p-3 bg-gray-50 rounded-xl">
+                        <div class="w-10 h-10 bg-purple-100 rounded-lg flex items-center justify-center">
+                            <i class="fa-solid fa-clock text-purple-500"></i>
+                        </div>
+                        <div>
+                            <p class="text-sm text-gray-500">เวลา</p>
+                            <p class="font-semibold text-gray-800">13:00 - 16:00 น.</p>
+                        </div>
+                    </div>
+                    <div class="flex items-center gap-3 p-3 bg-gray-50 rounded-xl col-span-2">
+                        <div class="w-10 h-10 bg-red-100 rounded-lg flex items-center justify-center">
+                            <i class="fa-solid fa-location-dot text-red-500"></i>
+                        </div>
+                        <div>
+                            <p class="text-sm text-gray-500">สถานที่</p>
+                            <p class="font-semibold text-gray-800">ห้องดนตรี อาคารเรียนรวม 1 ชั้น 3</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="mb-5">
+                    <h3 class="text-lg font-semibold text-gray-800 mb-3 flex items-center gap-2">
+                        <i class="fa-solid fa-file-lines text-gray-600"></i>
+                        รายละเอียดกิจกรรม
+                    </h3>
+                    <div class="text-gray-700 leading-relaxed bg-gray-50 p-4 rounded-xl">
+                        <p>Workshop สอนกีต้าร์พื้นฐานสำหรับผู้เริ่มต้น ไม่จำเป็นต้องมีพื้นฐานมาก่อน</p>
+                        <br>
+                        <p><strong>สิ่งที่คุณจะได้เรียนรู้:</strong></p>
+                        <ul class="list-disc list-inside space-y-1 mt-2">
+                            <li>พื้นฐานการจับคอร์ดพื้นฐาน C, G, Am, F</li>
+                            <li>การตีคอร์ดและเกากีต้าร์</li>
+                            <li>ฝึกเล่นเพลงง่ายๆ</li>
+                            <li>เทคนิคการดูแลรักษากีต้าร์</li>
+                        </ul>
+                        <br>
+                        <p><strong>สิ่งที่ต้องเตรียมมา:</strong></p>
+                        <p>• กีต้าร์ (หากไม่มีสามารถยืมได้)</p>
+                        <p>• ความตั้งใจและความสนุก</p>
+                        <br>
+                        <p><strong>เหมาะสำหรับ:</strong></p>
+                        <p>นักศึกษาที่สนใจเรียนรู้การเล่นกีต้าร์ตั้งแต่พื้นฐาน ไม่จำเป็นต้องมีประสบการณ์มาก่อน</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function opennew(){
+            document.getElementById("popup").classList.remove("hidden");
+        }
+        function closenew(){
+            document.getElementById("popup").classList.add("hidden");
+        }
+        function openactivity(){
+            document.getElementById("activity").classList.remove("hidden");
+        }
+        function closeactivity(){
+            document.getElementById("activity").classList.add("hidden");
+        }
+    </script>
+</body>
+</html>

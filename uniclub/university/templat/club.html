@@ -1,0 +1,229 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:ital,opsz,wght@0,6..12,200..1000;1,6..12,200..1000&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Anuphan:wght@100..700&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body{
+            font-family: "Nunito Sans", "Anuphan";
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <div class="flex justify-between items-center bg-white h-20 px-10 py-4 shadow-[0_2px_4px_rgba(0,0,0,0.3)] z-50 transition-all duration-300">
+        <a href="main.html" class="flex justify-center items-center gap-4">
+            <i class="fa-solid fa-paw fa-3x"></i>
+            <h1 class="text-[2.2rem] font-bold">PetEz</h1>
+        </a>
+        <div class="flex justify-center items-center gap-5">
+            <a href="club.html" class="text-[1.2rem] underline-offset-4 hover:underline cursor-pointer">จัดการชมรม</a>
+            <label class="relative inline-block">
+                <input type="checkbox" class="hidden peer" />
+                <p class="w-full h-full flex items-center justify-center gap-2 text-gray-700 text-[1.4rem] font-semibold cursor-pointer">
+                    <img src="../static/img/user.png" class="w-12 h-12 rounded-full cursor-pointer">
+                </p>
+                <nav class="absolute right-0 top-[60px] w-[200px] bg-white border border-none rounded-lg shadow-[0_4px_10px_rgba(0,0,0,0.25)] invisible opacity-0 transition-all duration-200 ease-in-out z-10 peer-checked:visible peer-checked:opacity-100">
+                    <ul class="list-none p-2 m-0">
+                        <li>
+                            <a href="profile.html" class="flex justify-start items-center gap-4 block w-full px-3 py-2 text-left text-[1rem] font-light rounded-md hover:bg-blue-200 hover:text-white cursor-pointer transition-colors duration-150">
+                                <i class="fa-solid fa-user"></i>
+                                โปรไฟล์
+                            </a>
+                        </li>
+                        <li>
+                            <a href="index.html" class="flex justify-start items-center gap-4 block w-full px-3 py-2 text-left text-[1rem] font-light rounded-md hover:bg-blue-200 hover:text-white cursor-pointer transition-colors duration-150">
+                                <i class="fa-solid fa-right-from-bracket"></i>
+                                Sign Out
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
+            </label>
+        </div>
+    </div>
+
+    <div class="bg-gradient-to-r from-orange-500 to-amber-500 py-12 px-10 text-white">
+        <div class="w-[80%] mx-auto">
+            <div class="flex items-center gap-6">
+                <img src="../static/img/bg1.jpg" class="w-32 h-32 rounded-2xl object-cover border-4 border-white shadow-lg">
+                <div class="flex-1">
+                    <div class="flex items-center gap-3 mb-2">
+                        <h1 class="text-[2.5rem] font-bold">ชมรมดนตรีสากล</h1>
+                        <span class="bg-white text-orange-500 px-3 py-1 rounded-full text-sm font-semibold">
+                            <i class="fa-solid fa-crown mr-1"></i>
+                            หัวหน้าชมรม
+                        </span>
+                    </div>
+                    <p class="text-xl opacity-90 mb-4">รายละเอียดชมรม</p>
+                    <div class="flex items-center gap-6 text-lg">
+                        <div class="flex items-center gap-2">
+                            <i class="fa-solid fa-users"></i>
+                            <span>สมาชิก 45 คน</span>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <i class="fa-solid fa-location-dot"></i>
+                            <span>ห้อง502 ตึกโหล</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="w-[80%] mx-auto py-8">
+        <div class="flex flex-col gap-6">
+            <div class="col-span-3">
+                <div class="grid grid-cols-3 gap-6 mb-8">
+                    <a href="club.html">
+                        <div class="bg-white rounded-2xl shadow-lg p-6">
+                            <div class="flex items-center justify-between">
+                                <div>
+                                    <p class="text-gray-500 text-sm">รอการอนุมัติ</p>
+                                    <p class="text-3xl font-bold text-orange-500">1</p>
+                                </div>
+                                <div class="w-12 h-12 bg-orange-100 rounded-full flex items-center justify-center">
+                                    <i class="fa-solid fa-user-clock text-orange-500 text-xl"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                    <a href="member.html">
+                        <div class="bg-white rounded-2xl shadow-lg p-6">
+                            <div class="flex items-center justify-between">
+                                <div>
+                                    <p class="text-gray-500 text-sm">สมาชิกทั้งหมด</p>
+                                    <p class="text-3xl font-bold text-blue-500">45</p>
+                                </div>
+                                <div class="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center">
+                                    <i class="fa-solid fa-users text-blue-500 text-xl"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                    <a href="club.html">
+                        <div class="bg-white rounded-2xl shadow-lg p-6">
+                            <div class="flex items-center justify-between">
+                                <div>
+                                    <p class="text-gray-500 text-sm">กิจกรรม</p>
+                                    <p class="text-3xl font-bold text-green-500">5</p>
+                                </div>
+                                <div class="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center">
+                                    <i class="fa-solid fa-calendar-check text-green-500 text-xl"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+
+                <div class="bg-white rounded-2xl shadow-lg p-6 mb-8">
+                    <div class="flex justify-between items-center mb-6">
+                        <h2 class="text-[1.5rem] font-bold text-gray-800">คำขอเข้าร่วมชมรม</h2>
+                        <span class="bg-orange-500 text-white px-3 py-1 rounded-full text-sm font-semibold">
+                            1 รายการ
+                        </span>
+                    </div>
+                    <div class="space-y-4">
+                        <div class="flex items-center justify-between p-4 border border-gray-200 rounded-xl hover:bg-orange-50 transition-colors duration-200">
+                            <div class="flex items-center gap-4">
+                                <img src="../static/img/user.png" class="w-14 h-14 rounded-full">
+                                <div>
+                                    <h3 class="font-semibold text-gray-800">สมชาย ใจดี</h3>
+                                    <p class="text-gray-600 text-sm">คณะวิศวกรรมศาสตร์ • ปี 2</p>
+                                </div>
+                            </div>
+                            <div class="flex items-center gap-3">
+                                <button class="flex items-center gap-2 px-4 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600 transition-colors duration-200">
+                                    <i class="fa-solid fa-check"></i>
+                                    อนุมัติ
+                                </button>
+                                <button class="flex items-center gap-2 px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition-colors duration-200">
+                                    <i class="fa-solid fa-times"></i>
+                                    ปฏิเสธ
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-white border border-gray-200 rounded-2xl shadow-lg p-6">
+                    <div class="flex justify-between items-center">
+                        <h2 class="text-[1.5rem] font-bold text-gray-800 mb-6">กิจกรรมล่าสุด</h2>
+                        <button onclick="openpopup()" class="flex justify-center items-center gap-5 px-7 py-2 text-white text-[1.2rem] rounded-2xl cursor-pointer bg-orange-500 transition duration-200 ease-in-out hover:bg-orange-700">
+                            <i class="fa-solid fa-plus"></i>
+                            เพิ่มกิจกรรมใหม่
+                        </button>
+                    </div>
+                    <div class="grid grid-cols-2 gap-5">
+                        <div class="border border-gray-200 rounded-xl overflow-hidden hover:shadow-lg transition-shadow duration-300">
+                            <img src="../static/img/bg1.jpg" class="w-full h-32 object-cover">
+                            <div class="p-4">
+                                <h3 class="font-semibold text-gray-800 mb-2">Workshop Guitar Basic</h3>
+                                <div class="flex items-center gap-4 text-sm text-gray-600 mb-3">
+                                    <span><i class="fa-solid fa-calendar mr-1"></i> 15 ส.ค.</span>
+                                </div>
+                                <button class="w-full bg-orange-500 text-white py-2 rounded-lg hover:bg-orange-600 transition-colors duration-200 text-sm">เสร็จสิ้น</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="popup" class="hidden fixed inset-0 bg-black bg-opacity-50 backdrop-blur-sm z-50">
+        <div class="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-100 bg-white p-5 rounded-xl flex flex-col justify-center items-start w-[25%] mx-auto shadow-[0_4px_12px_rgba(0,0,0,0.15)]">
+            <div class="flex justify-between w-full mb-5">
+                <h1 class="text-[1.5rem] font-extrabold">สร้างกิจกรรมใหม่</h1>
+                <i class="fa-solid fa-xmark fa-2x text-gray-600 hover:text-red-500 cursor-pointer" onclick="closepopup()"></i>
+            </div>
+            <div class="w-full mb-4">
+                <label for="" class="flex items-center gap-3 text-lg">ชื่อกิจกรรม</label>
+                <input type="text" placeholder="กรุณาใส่ชื่อกิจกรรม" class="w-full border-2 border-[#e2e8f0] rounded-2xl text-[1rem] px-5 py-2 transition duration-300 ease-in-out focus:outline-none focus:border-[#3b5bdb] focus:shadow-[0_0_0_4px_rgba(59,91,219,0.1)]" />
+            </div>
+            <div class="mb-4 w-full">
+                <label class="block mb-1 text-gray-700 font-medium">รายละเอียดกิจกรรม</label>
+                <textarea placeholder="รายละเอียดเกี่ยวกับกิจกรรม" class="w-full border-2 border-[#e2e8f0] rounded-2xl text-[1rem] px-5 py-2 transition duration-300 ease-in-out focus:outline-none focus:border-[#3b5bdb] focus:shadow-[0_0_0_4px_rgba(59,91,219,0.1)]"></textarea>
+            </div>
+            <div class="mb-4 w-full">
+                <label class="block mb-1 text-gray-700 font-medium">สถานที่</label>
+                <input type="text" placeholder="สถานที่ที่ใช้จัดกิจกรรม" class="w-full border-2 border-[#e2e8f0] rounded-2xl text-[1rem] px-5 py-2 transition duration-300 ease-in-out focus:outline-none focus:border-[#3b5bdb] focus:shadow-[0_0_0_4px_rgba(59,91,219,0.1)]" />
+            </div>
+            <div class="mb-4 w-full">
+                <label class="block mb-1 text-gray-700 font-medium">วันเริ่ม</label>
+                <input type="date" placeholder="วันที่เริ่มกิจกรรม" class="w-full border-2 border-[#e2e8f0] rounded-2xl text-[1rem] px-5 py-2 transition duration-300 ease-in-out focus:outline-none focus:border-[#3b5bdb] focus:shadow-[0_0_0_4px_rgba(59,91,219,0.1)]" />
+            </div>
+            <div class="mb-4 w-full">
+                <label class="block mb-1 text-gray-700 font-medium">วันสิ้นสุด</label>
+                <input type="date" placeholder="วันที่สิ้นสุดกิจกรรม" class="w-full border-2 border-[#e2e8f0] rounded-2xl text-[1rem] px-5 py-2 transition duration-300 ease-in-out focus:outline-none focus:border-[#3b5bdb] focus:shadow-[0_0_0_4px_rgba(59,91,219,0.1)]" />
+            </div>
+            <div class="mb-4 w-full">
+                <label class="block mb-1 text-gray-700 font-medium">เวลาเริ่ม</label>
+                <input type="time" placeholder="เวลาเริ่มกิจกรรม" class="w-full border-2 border-[#e2e8f0] rounded-2xl text-[1rem] px-5 py-2 transition duration-300 ease-in-out focus:outline-none focus:border-[#3b5bdb] focus:shadow-[0_0_0_4px_rgba(59,91,219,0.1)]" />
+            </div>
+            <div class="mb-4 w-full">
+                <label class="block mb-1 text-gray-700 font-medium">เวลาสิ้นสุด</label>
+                <input type="time" placeholder="เวลาสิ้นสุดกิจกรรม" class="w-full border-2 border-[#e2e8f0] rounded-2xl text-[1rem] px-5 py-2 transition duration-300 ease-in-out focus:outline-none focus:border-[#3b5bdb] focus:shadow-[0_0_0_4px_rgba(59,91,219,0.1)]" />
+            </div>
+            <div class="w-full flex justify-end items-end gap-5">
+                <button onclick="closepopup()" class="px-7 py-2 bg-white text-orange-500 border border-orange-500 rounded-xl shadow-sm cursor-pointer transition duration-200 ease-in-out hover:bg-orange-50">ยกเลิก</button>
+                <button onclick="closepopup()" class="px-7 py-2 bg-orange-500 border border-orange-500 text-white rounded-xl shadow-sm cursor-pointer transition duration-200 ease-in-out hover:bg-orange-700">ยืนยัน</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function openpopup(){
+            document.getElementById("popup").classList.remove("hidden");
+        }
+        function closepopup(){
+            document.getElementById("popup").classList.add("hidden");
+        }
+    </script>
+</body>
+</html>
