@@ -14,22 +14,28 @@ class StudentProfile(models.Model):
     def __str__(self):
         return f"{self.first_name} {self.last_name}"
 
-class Account(models.Model):
-    email = models.EmailField(unique=True)
-    password = models.CharField(max_length=255)
-    studentprofile = models.OneToOneField(StudentProfile, on_delete=models.CASCADE)
-
 class Club(models.Model):
     image = models.FileField(upload_to="media/", blank=True, null=True)
     name = models.CharField(max_length=100)
     description = models.TextField(blank=True, null=True)
     location = models.CharField(max_length=100, blank=True, null=True)
 
+class Account(models.Model):
+    email = models.EmailField(unique=True)
+    password = models.CharField(max_length=255)
+    studentprofile = models.OneToOneField(StudentProfile, on_delete=models.CASCADE)
+
 class Member(models.Model):
-    role = models.CharField(max_length=50)
-    join_date = models.DateField()
+    class Role(models.TextChoices):
+        ADMIN = 'ADMIN', 'Admin'
+        LEADER = 'LEADER', 'Leader'
+        MEMBER = 'MEMBER', 'Member'
+
+    role = models.CharField(max_length=50, choices=Role.choices, default=Role.MEMBER)
+    join_date = models.DateField(auto_now_add=True)
+    
     account = models.ForeignKey(Account, on_delete=models.CASCADE)
-    clubs = models.ManyToManyField(Club, related_name="members")
+    clubs = models.ManyToManyField(Club, related_name="members", blank=True)
 
 class Activity(models.Model):
     activity_name = models.CharField(max_length=100)
@@ -40,4 +46,21 @@ class Activity(models.Model):
     end_time = models.TimeField(default="00:00:00")
     location = models.CharField(max_length=100, default="ไม่ระบุ")
     image = models.FileField(upload_to="media/", blank=True, null=True)
+
     club = models.ForeignKey(Club, on_delete=models.CASCADE)
+
+class ClubRequest(models.Model):
+    STATUS_CHOICES = [
+        ('PENDING', 'รออนุมัติ'),
+        ('APPROVED', 'อนุมัติ'),
+        ('REJECTED', 'ปฏิเสธ'),
+    ]
+
+    name = models.CharField(max_length=100)
+    description = models.TextField(blank=True, null=True)
+    location = models.CharField(max_length=100, blank=True, null=True)
+    image = models.FileField(upload_to="media/", blank=True, null=True)
+
+    requested_by = models.ForeignKey(Account, on_delete=models.CASCADE)
+    status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='PENDING')
+    request_date = models.DateTimeField(auto_now_add=True)

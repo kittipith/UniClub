@@ -1,3 +1,4 @@
+{% load static %}
 <!doctype html>
 <html>
 <head>
@@ -19,10 +20,9 @@
     <div class="flex justify-between items-center bg-white h-20 px-10 py-4 shadow-[0_2px_4px_rgba(0,0,0,0.3)] z-50 transition-all duration-300">
         <a href="main.html" class="flex justify-center items-center gap-4">
             <i class="fa-solid fa-paw fa-3x"></i>
-            <h1 class="text-[2.2rem] font-bold">PetEz</h1>
+            <h1 class="text-[2.2rem] font-bold">UniClub</h1>
         </a>
         <div class="flex justify-center items-center gap-5">
-            <a href="club.html" class="text-[1.2rem] underline-offset-4 hover:underline cursor-pointer">จัดการชมรม</a>
             <label class="relative inline-block">
                 <input type="checkbox" class="hidden peer" />
                 <p class="w-full h-full flex items-center justify-center gap-2 text-gray-700 text-[1.4rem] font-semibold cursor-pointer">
@@ -30,12 +30,6 @@
                 </p>
                 <nav class="absolute right-0 top-[60px] w-[200px] bg-white border border-none rounded-lg shadow-[0_4px_10px_rgba(0,0,0,0.25)] invisible opacity-0 transition-all duration-200 ease-in-out z-10 peer-checked:visible peer-checked:opacity-100">
                     <ul class="list-none p-2 m-0">
-                        <li>
-                            <a href="profile.html" class="flex justify-start items-center gap-4 block w-full px-3 py-2 text-left text-[1rem] font-light rounded-md hover:bg-orange-200 hover:text-white cursor-pointer transition-colors duration-150">
-                                <i class="fa-solid fa-user"></i>
-                                โปรไฟล์
-                            </a>
-                        </li>
                         <li>
                             <a href="index.html" class="flex justify-start items-center gap-4 block w-full px-3 py-2 text-left text-[1rem] font-light rounded-md hover:bg-orange-200 hover:text-white cursor-pointer transition-colors duration-150">
                                 <i class="fa-solid fa-right-from-bracket"></i>
@@ -52,45 +46,39 @@
         <div class="flex flex-col gap-6">
             <div class="col-span-3">
                 <div class="grid grid-cols-3 gap-6 mb-8">
-                    <a href="member.html">
-                        <div class="bg-white rounded-2xl shadow-lg p-6">
-                            <div class="flex items-center justify-between">
-                                <div>
-                                    <p class="text-gray-500 text-sm">ชมรมทั้งหมด</p>
-                                    <p class="text-3xl font-bold text-blue-500">1</p>
-                                </div>
-                                <div class="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center">
-                                    <i class="fa-solid fa-users text-blue-500 text-xl"></i>
-                                </div>
+                    <div class="bg-white rounded-2xl shadow-lg p-6">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <p class="text-gray-500 text-sm">ชมรมทั้งหมด</p>
+                                <p class="text-3xl font-bold text-blue-500">{{ total_club }}</p>
+                            </div>
+                            <div class="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center">
+                                <i class="fa-solid fa-users text-blue-500 text-xl"></i>
                             </div>
                         </div>
-                    </a>
-                    <a href="club.html">
-                        <div class="bg-white rounded-2xl shadow-lg p-6">
-                            <div class="flex items-center justify-between">
-                                <div>
-                                    <p class="text-gray-500 text-sm">รอการอนุมัติสร้างชมรม</p>
-                                    <p class="text-3xl font-bold text-orange-500">1</p>
-                                </div>
-                                <div class="w-12 h-12 bg-orange-100 rounded-full flex items-center justify-center">
-                                    <i class="fa-solid fa-user-clock text-orange-500 text-xl"></i>
-                                </div>
+                    </div>
+                    <div class="bg-white rounded-2xl shadow-lg p-6">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <p class="text-gray-500 text-sm">รอการอนุมัติสร้างชมรม</p>
+                                <p class="text-3xl font-bold text-orange-500">{{ total_requests }}</p>
+                            </div>
+                            <div class="w-12 h-12 bg-orange-100 rounded-full flex items-center justify-center">
+                                <i class="fa-solid fa-user-clock text-orange-500 text-xl"></i>
                             </div>
                         </div>
-                    </a>
-                    <a href="member.html">
-                        <div class="bg-white rounded-2xl shadow-lg p-6">
-                            <div class="flex items-center justify-between">
-                                <div>
-                                    <p class="text-gray-500 text-sm">ผู้ใช้ทั้งหมด</p>
-                                    <p class="text-3xl font-bold text-green-500">1</p>
-                                </div>
-                                <div class="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center">
-                                    <i class="fa-solid fa-users text-green-500 text-xl"></i>
-                                </div>
+                    </div>
+                    <div class="bg-white rounded-2xl shadow-lg p-6">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <p class="text-gray-500 text-sm">ผู้ใช้ทั้งหมด</p>
+                                <p class="text-3xl font-bold text-green-500">{{ total_student }}</p>
+                            </div>
+                            <div class="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center">
+                                <i class="fa-solid fa-users text-green-500 text-xl"></i>
                             </div>
                         </div>
-                    </a>
+                    </div>
                 </div>
             </div>
             <div class="grid grid-cols-3 gap-10">
@@ -106,65 +94,90 @@
                             </tr>
                         </thead>
                         <tbody class="divide-y divide-gray-100 text-sm">
-                            <tr class="hover:bg-orange-50 transition">
-                                <td class="px-4 py-3"><img src="../static/img/user.png" class="size-8 rounded-full"></td>
-                                <td class="px-4 py-3">66070018</td>
-                                <td class="px-4 py-3">กิตติพิชญ์ หิรัญวงศ์</td>
-                                <td class="px-4 py-3">เทคโนโลยีสารสนเทศ</td>
-                                <td class="px-4 py-3">3</td>
-                            </tr>
+                            {% for i in student %}
+                                <tr class="hover:bg-orange-50 transition">
+                                    <td class="px-4 py-3"><img src="../static/img/user.png" class="size-8 rounded-full"></td>
+                                    <td class="px-4 py-3">{{ i.student_id }}</td>
+                                    <td class="px-4 py-3">{{ i.first_name }} {{ i.last_name }}</td>
+                                    <td class="px-4 py-3">{{ i.faculty }}</td>
+                                    <td class="px-4 py-3">{{ i.year }}</td>
+                                </tr>
+                            {% endfor %}
                         </tbody>
                     </table>
                 </div>
                 <div class="grid grid-cols-1 gap-10">
                     <div class="flex flex-col p-6 border border-gray-200 rounded-2xl shadow-lg bg-white">
                         <div class="flex items-center gap-3 mb-5">
-                            <h1 class="text-[1.4rem] font-bold text-gray-800">คำขอร้องก่อตั้งชมรม</h1>
+                          <h1 class="text-[1.4rem] font-bold text-gray-800">คำขอร้องก่อตั้งชมรม</h1>
                         </div>
-                        <div class="flex justify-between items-center p-4 rounded-xl border border-blue-100">
-                            <div class="flex gap-4">
-                                <div class="relative">
-                                    <img src="../static/img/bg1.jpg" class="w-14 h-14 rounded-xl object-cover border-2">
-                                </div>
-                                <div class="items-center">
-                                    <h1 class="text-[1.2rem] font-bold text-gray-800 mb-1">ชมรมดนตรีสากล</h1>
-                                    <h1 class="text-[1rem] font-light text-gray-800 mb-1">รายละเอียด</h1>
-                                    <p class="text-gray-400">
-                                        <i class="fa-solid fa-user"></i>
-                                        สมชาย ใจดี คณะวิศวกรรมศาสตร์ • ปี 2
-                                    </p>
-                                    <p class="text-gray-400">
-                                        <i class="fa-solid fa-location-dot"></i>
-                                        ห้อง 502 ตึกโหล
-                                    </p>
-                                    <div class="flex items-center gap-3 text-gray-600 mt-3">
-                                        <button class="text-[1rem] text-white px-7 py-1 bg-orange-500 rounded-xl cursor-pointer transition-all duration-200 ease-in-out hover:bg-orange-600">ยืนยัน</button>
-                                        <button class="text-[1rem] text-orange-500 border border-orange-500 px-7 py-1 bg-white rounded-xl cursor-pointer transition-all duration-200 ease-in-out hover:bg-orange-50">ยกเลิก</button>
+                        {% if club_requests %}
+                            {% for club in club_requests %}
+                                <div class="flex justify-between items-center p-4 rounded-xl border border-blue-100 mb-3">
+                                    <div class="flex gap-4">
+                                        <div class="relative">
+                                            {% if club.image %}
+                                                <img src="{{ club.image.url }}" class="w-14 h-14 rounded-xl object-cover border-2">
+                                            {% else %}
+                                                <img src="{% static 'img/bg1.jpg' %}" class="w-14 h-14 rounded-xl object-cover border-2">
+                                            {% endif %}
+                                        </div>
+                                        <div class="items-center">
+                                            <h1 class="text-[1.2rem] font-bold text-gray-800 mb-1">{{ club.name }}</h1>
+                                            <h1 class="text-[1rem] font-light text-gray-800 mb-1">{{ club.description }}</h1>
+                                            <p class="text-gray-400">
+                                                <i class="fa-solid fa-user"></i>
+                                                {{ club.requested_by.studentprofile.first_name }} {{ club.requested_by.studentprofile.last_name }}
+                                                • {{ club.requested_by.studentprofile.faculty }} ปี {{ club.requested_by.studentprofile.year }}
+                                            </p>
+                                            <p class="text-gray-400">
+                                                <i class="fa-solid fa-location-dot"></i>
+                                                {{ club.location }}
+                                            </p>
+                                            <div class="flex items-center gap-3 text-gray-600 mt-3">
+                                                <form method="post" action="{% url 'approve_club' club.id %}">
+                                                    {% csrf_token %}
+                                                    <button class="text-[1rem] text-white px-7 py-1 bg-orange-500 rounded-xl cursor-pointer hover:bg-orange-600">ยืนยัน</button>
+                                                </form>
+                                                <form method="post" action="{% url 'reject_club' club.id %}">
+                                                    {% csrf_token %}
+                                                    <button class="text-[1rem] text-orange-500 border border-orange-500 px-7 py-1 bg-white rounded-xl cursor-pointer hover:bg-orange-50">ยกเลิก</button>
+                                                </form>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                        </div>
+                            {% endfor %}
+                        {% else %}
+                            <p class="text-gray-500 text-center">ยังไม่มีคำขอสร้างชมรม</p>
+                        {% endif %}
                     </div>
                     <div class="flex flex-col p-6 border border-gray-200 rounded-2xl shadow-lg bg-white">
                         <div class="flex items-center gap-3 mb-5">
                             <h1 class="text-[1.4rem] font-bold text-gray-800">ชมรมทั้งหมด</h1>
                         </div>
-                        <div class="flex justify-between items-center p-4 rounded-xl border border-blue-100">
-                            <div class="flex gap-4">
-                                <div class="relative">
-                                    <img src="../static/img/bg1.jpg" class="w-14 h-14 rounded-xl object-cover border-2">
-                                </div>
-                                <div class="items-center">
-                                    <h1 class="text-[1.2rem] font-bold text-gray-800 mb-1">ชมรมดนตรีสากล</h1>
-                                    <div class="flex items-center gap-3 text-gray-600">
-                                        <button class="text-[1rem] text-white px-7 py-1 bg-orange-500 rounded-xl cursor-pointer transition-all duration-200 ease-in-out hover:bg-orange-600">
-                                            <i class="fa-solid fa-ban"></i>
-                                            ปิดชมรม
-                                        </button>
+                        {% for i in club %}
+                            <div class="flex justify-between items-center p-4 rounded-xl border border-blue-100 mb-5">
+                                <div class="flex gap-4">
+                                    <div class="relative">
+                                        {% if i.image %}
+                                            <img src="{{ i.image.url }}" class="w-14 h-14 rounded-xl object-cover border-2">
+                                        {% else %}
+                                            <img src="{% static 'img/bg1.jpg' %}" class="w-14 h-14 rounded-xl object-cover border-2">
+                                        {% endif %}
+                                    </div>
+                                    <div class="items-center">
+                                        <h1 class="text-[1.2rem] font-bold text-gray-800 mb-1">{{ i.name}}</h1>
+                                        <div class="flex items-center gap-3 text-gray-600">
+                                            <button class="text-[1rem] text-white px-7 py-1 bg-orange-500 rounded-xl cursor-pointer transition-all duration-200 ease-in-out hover:bg-orange-600">
+                                                <i class="fa-solid fa-ban"></i>
+                                                ปิดชมรม
+                                            </button>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        {% endfor %}
                     </div>
                 </div>
             </div>
