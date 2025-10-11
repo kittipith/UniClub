@@ -6,8 +6,7 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:ital,opsz,wght@0,6..12,200..1000;1,6..12,200..1000&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Anuphan:wght@100..700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@300;400;700&family=Anuphan:wght@300;400;700&display=swap" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         body{
@@ -16,106 +15,144 @@
     </style>
 </head>
 <body class="bg-gray-50">
-    <div class="flex justify-between items-center bg-white h-20 px-10 py-4 shadow-[0_2px_4px_rgba(0,0,0,0.3)] z-50 transition-all duration-300">
-        <a href="main.html" class="flex justify-center items-center gap-4">
-            <i class="fa-solid fa-paw fa-3x"></i>
-            <h1 class="text-[2.2rem] font-bold">UniClub</h1>
+<form method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
+    <div class="flex justify-between items-center bg-white h-20 px-10 py-4 shadow-md">
+        <a href="{% url 'main' %}" class="flex items-center gap-4">
+            <i class="fa-solid fa-paw fa-3x text-orange-500"></i>
+            <h1 class="text-[2.2rem] font-bold text-gray-800">UniClub</h1>
         </a>
+
         <label class="relative inline-block">
             <input type="checkbox" class="hidden peer" />
-            <p class="w-full h-full flex items-center justify-center gap-2 text-gray-700 text-[1.4rem] font-semibold cursor-pointer">
-                <img src="../static/img/user.png" class="w-12 h-12 rounded-full cursor-pointer">
+            <p class="flex items-center gap-2 text-gray-700 text-[1.4rem] font-semibold cursor-pointer">
+                <img src="{% if student.image %}{{ student.image.url }}{% else %}/static/img/user.png{% endif %}" class="w-12 h-12 rounded-full object-cover cursor-pointer">
             </p>
-            <nav class="absolute right-0 top-[60px] w-[200px] bg-white border border-none rounded-lg shadow-[0_4px_10px_rgba(0,0,0,0.25)] invisible opacity-0 transition-all duration-200 ease-in-out z-10 peer-checked:visible peer-checked:opacity-100">
-                <ul class="list-none p-2 m-0">
+            <nav class="absolute right-0 top-[60px] w-[200px] bg-white border rounded-lg shadow-lg invisible opacity-0 transition-all duration-200 ease-in-out z-10 peer-checked:visible peer-checked:opacity-100">
+                <ul class="list-none p-2">
                     <li>
-                        <a href="profile.html" class="flex justify-start items-center gap-4 block w-full px-3 py-2 text-left text-[1rem] font-light rounded-md hover:bg-orange-200 hover:text-white cursor-pointer transition-colors duration-150">
-                            <i class="fa-solid fa-user"></i>
-                            โปรไฟล์
+                        <a href="{% url 'profile' %}" class="flex items-center gap-4 px-3 py-2 rounded-md hover:bg-orange-200 hover:text-white">
+                            <i class="fa-solid fa-user"></i> โปรไฟล์
                         </a>
                     </li>
                     <li>
-                        <a href="index.html" class="flex justify-start items-center gap-4 block w-full px-3 py-2 text-left text-[1rem] font-light rounded-md hover:bg-orange-200 hover:text-white cursor-pointer transition-colors duration-150">
-                            <i class="fa-solid fa-right-from-bracket"></i>
-                            Sign Out
+                        <a href="{% url 'logout' %}" class="flex items-center gap-4 px-3 py-2 rounded-md hover:bg-orange-200 hover:text-white">
+                            <i class="fa-solid fa-right-from-bracket"></i> Sign Out
                         </a>
                     </li>
                 </ul>
             </nav>
         </label>
     </div>
-    <div class="w-[60%] flex flex-col justify-start mx-auto my-10">
-        <div class="w-full flex justify-start gap-5 mb-5">
-            <a href="main.html" class="w-full">
-                <button class="flex justify-center items-center gap-3 px-7 py-2 border border-orange-500 text-orange-500 text-[1.2rem] rounded-xl bg-white shasow-sm cursor-pointer transition-all duration-200 ease-in-out hover:bg-orange-50">
-                    <i class="fa-solid fa-arrow-right"></i>
-                    ย้อนกลับ
-                </button>
+
+    <div class="w-[60%] flex flex-col mx-auto my-10">
+        <div class="flex justify-start mb-5">
+            <a href="{% url 'main' %}" class="flex items-center gap-3 px-7 py-2 border border-orange-500 text-orange-500 text-[1.2rem] rounded-xl bg-white hover:bg-orange-50">
+                <i class="fa-solid fa-arrow-right"></i> ย้อนกลับ
             </a>
         </div>
+
         <div class="flex justify-between items-center mb-5 mx-1">
             <div>
                 <h1 class="text-[2rem] font-bold">โปรไฟล์ของฉัน</h1>
                 <p class="text-[1rem] font-light">จัดการข้อมูลส่วนตัว</p>
             </div>
             <div>
-                <button class="flex justify-center items-center gap-3 px-7 py-2 bg-orange-500 rounded-xl text-white text-[1.2rem] font-medium cursor-pointer transition-all duration-200 ease-in-out hover:bg-orange-600">
-                    <i class="fa-solid fa-pen-to-square"></i>
-                    แก้ไขโปรไฟล์
+                <button type="button" id="editProfileBtn" class="flex items-center gap-3 px-7 py-2 bg-orange-500 rounded-xl text-white text-[1.2rem] font-medium hover:bg-orange-600">
+                    <i class="fa-solid fa-pen-to-square"></i> แก้ไขโปรไฟล์
                 </button>
             </div>
         </div>
+
         <div class="w-full grid grid-cols-3 gap-10">
             <div class="col-span-2 border border-gray-200 shadow-sm rounded-xl bg-white p-5">
                 <h1 class="text-[1.4rem] font-bold mb-5">ข้อมูลส่วนตัว</h1>
-                <div class="grid grid-cols-2 gap-5">
-                    <div class="flex flex-col text-[1.2rem]">
+                <div class="grid grid-cols-2 gap-5 text-[1.1rem]">
+                    <div>
                         <p>ชื่อ</p>
-                        <p class="font-bold">กิตติพิชญ์</p>
+                        <input type="text" name="first_name" value="{{ student.first_name }}" class="w-full border rounded-md p-1 hidden editable">
+                        <p class="font-bold staticText">{{ student.first_name }}</p>
                     </div>
-                    <div class="flex flex-col text-[1.2rem]">
+                    <div>
                         <p>นามสกุล</p>
-                        <p class="font-bold">หิรัญวงศ์</p>
+                        <input type="text" name="last_name" value="{{ student.last_name }}" class="w-full border rounded-md p-1 hidden editable">
+                        <p class="font-bold staticText">{{ student.last_name }}</p>
                     </div>
-                    <div class="flex flex-col text-[1.2rem]">
+                    <div>
                         <p>รหัสนักศึกษา</p>
-                        <p class="font-bold">66070018</p>
+                        <input type="text" name="student_id" value="{{ student.student_id }}" class="w-full border rounded-md p-1 hidden editable">
+                        <p class="font-bold staticText">{{ student.student_id }}</p>
                     </div>
-                    <div class="flex flex-col text-[1.2rem]">
+                    <div>
                         <p>คณะ</p>
-                        <p class="font-bold">เทคโนโลยีสารสนเทศ</p>
+                        <input type="text" name="faculty" value="{{ student.faculty }}" class="w-full border rounded-md p-1 hidden editable">
+                        <p class="font-bold staticText">{{ student.faculty }}</p>
                     </div>
-                    <div class="flex flex-col text-[1.2rem]">
+                    <div>
                         <p>ชั้นปี</p>
-                        <p class="font-bold">3</p>
+                        <input type="number" name="year" value="{{ student.year }}" class="w-full border rounded-md p-1 hidden editable">
+                        <p class="font-bold staticText">{{ student.year }}</p>
                     </div>
-                    <div class="flex flex-col text-[1.2rem]">
+                    <div>
+                        <p>อีเมล</p>
+                        <input type="email" name="email" value="{{ student.email }}" class="w-full border rounded-md p-1 hidden editable">
+                        <p class="font-bold staticText">{{ student.email }}</p>
+                    </div>
+                    <div>
                         <p>เบอร์โทรศัพท์</p>
-                        <p class="font-bold">098-827-1462</p>
+                        <input type="text" name="phone" value="{{ student.phone }}" class="w-full border rounded-md p-1 hidden editable">
+                        <p class="font-bold staticText">{{ student.phone|default:"-" }}</p>
                     </div>
                 </div>
             </div>
+
             <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6 text-center">
                 <div class="relative inline-block mb-4">
-                    <img src="../static/img/user.png" class="w-32 h-32 rounded-full">
-                    <button id="changePhotoBtn" class="absolute bottom-2 right-2 bg-white rounded-full p-2 shadow-lg hover:bg-gray-100 transition duration-200">
+                    <img id="profileImage" src="{% if student.image %}{{ student.image.url }}{% else %}/static/img/user.png{% endif %}" class="w-32 h-32 rounded-full object-cover">
+                    <button type="button" id="changePhotoBtn" class="absolute bottom-2 right-2 bg-white rounded-full p-2 shadow-lg hover:bg-gray-100 transition">
                         <i class="fas fa-camera text-gray-700"></i>
                     </button>
+                    <input type="file" id="photoInput" name="image" class="hidden" accept="image/*">
                 </div>
-                
-                <h1 class="text-xl font-bold text-gray-800 mb-1">กิตติพงศ์ หิรัญวงศ์</h1>
-                <p class="text-gray-600 mb-2">66070018</p>
-                <p class="text-orange-600 font-medium mb-4">คณะเทคโนโลยีสารสนเทศ</p>
-                <div>
-                    <p class="text-2xl font-bold text-gray-800">3</p>
-                    <p class="text-sm text-gray-600">ชมรม</p>
-                </div>
+
+                <h1 class="text-xl font-bold text-gray-800 mb-1">{{ student.first_name }} {{ student.last_name }}</h1>
+                <p class="text-gray-600 mb-2">{{ student.student_id }}</p>
+                <p class="text-orange-600 font-medium mb-4">{{ student.faculty }}</p>
             </div>
         </div>
-        <div class="w-full flex justify-end gap-5 my-10">
-            <button class="flex justify-center items-center px-7 py-2 border border-orange-500 text-orange-500 text-[1.2rem] rounded-xl bg-white shasow-sm cursor-pointer transition-all duration-200 ease-in-out hover:bg-orange-50">ยกเลิก</button>
-            <button class="flex justify-center items-center px-7 py-2 bg-orange-500 text-white text-[1.2rem] rounded-xl shadow-sm cursor-pointer transition-all duration-200 ease-in-out hover:bg-orange-600">บันทึก</button>
+
+        <div class="flex justify-end gap-5 my-10">
+            <button type="reset" class="px-7 py-2 border border-orange-500 text-orange-500 text-[1.2rem] rounded-xl bg-white hover:bg-orange-50">ยกเลิก</button>
+            <button type="submit" class="px-7 py-2 bg-orange-500 text-white text-[1.2rem] rounded-xl hover:bg-orange-600">บันทึก</button>
         </div>
     </div>
+</form>
+
+<script>
+    const editBtn = document.getElementById("editProfileBtn");
+    editBtn.addEventListener("click", () => {
+        document.querySelectorAll(".editable").forEach(el => el.classList.remove("hidden"));
+        document.querySelectorAll(".staticText").forEach(el => el.classList.add("hidden"));
+    });
+
+    const changePhotoBtn = document.getElementById("changePhotoBtn");
+    const photoInput = document.getElementById("photoInput");
+    const profileImage = document.getElementById("profileImage");
+
+    changePhotoBtn.addEventListener("click", () => {
+        photoInput.click();
+    });
+
+    photoInput.addEventListener("change", (e) => {
+        const file = e.target.files[0];
+        if(file){
+            const reader = new FileReader();
+            reader.onload = () => {
+                profileImage.src = reader.result;
+            };
+            reader.readAsDataURL(file);
+        }
+    });
+</script>
 </body>
 </html>

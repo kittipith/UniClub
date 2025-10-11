@@ -167,13 +167,14 @@
                                         {% endif %}
                                     </div>
                                     <div class="items-center">
-                                        <h1 class="text-[1.2rem] font-bold text-gray-800 mb-1">{{ i.name}}</h1>
-                                        <div class="flex items-center gap-3 text-gray-600">
-                                            <button class="text-[1rem] text-white px-7 py-1 bg-orange-500 rounded-xl cursor-pointer transition-all duration-200 ease-in-out hover:bg-orange-600">
+                                        <h1 class="text-[1.2rem] font-bold text-gray-800 mb-1">{{ i.name }}</h1>
+                                        <form method="POST" action="{% url 'delete_club' i.id %}">
+                                            {% csrf_token %}
+                                            <button type="submit" class="text-[1rem] text-white px-7 py-1 bg-orange-500 rounded-xl cursor-pointer transition-all duration-200 ease-in-out hover:bg-orange-600">
                                                 <i class="fa-solid fa-ban"></i>
                                                 ปิดชมรม
                                             </button>
-                                        </div>
+                                        </form>
                                     </div>
                                 </div>
                             </div>

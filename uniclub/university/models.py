@@ -1,4 +1,5 @@
 from django.db import models
+from django.utils import timezone
 
 # Create your models here.
 class StudentProfile(models.Model):
@@ -19,6 +20,8 @@ class Club(models.Model):
     name = models.CharField(max_length=100)
     description = models.TextField(blank=True, null=True)
     location = models.CharField(max_length=100, blank=True, null=True)
+
+    leader = models.ForeignKey("Account", on_delete=models.CASCADE, null=True, blank=True)
 
 class Account(models.Model):
     email = models.EmailField(unique=True)
@@ -62,5 +65,18 @@ class ClubRequest(models.Model):
     image = models.FileField(upload_to="media/", blank=True, null=True)
 
     requested_by = models.ForeignKey(Account, on_delete=models.CASCADE)
+    status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='PENDING')
+    request_date = models.DateTimeField(auto_now_add=True)
+
+class MemberRequest(models.Model):
+    STATUS_CHOICES = [
+        ('PENDING', 'รออนุมัติ'),
+        ('APPROVED', 'อนุมัติ'),
+        ('REJECTED', 'ปฏิเสธ'),
+    ]
+
+    account = models.ForeignKey(Account, on_delete=models.CASCADE)
+    club = models.ForeignKey(Club, on_delete=models.CASCADE)
+    role = models.CharField(max_length=50, choices=Member.Role.choices, default=Member.Role.MEMBER)
     status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='PENDING')
     request_date = models.DateTimeField(auto_now_add=True)
