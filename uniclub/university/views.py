@@ -94,7 +94,6 @@ def logout(request):
     auth_logout(request)
     return redirect('index')
 
-
 def main(request):
     if not request.user.is_authenticated:
         return redirect('login')
@@ -146,6 +145,12 @@ def profile(request):
     account = get_object_or_404(Account, email=request.user.email)
     student = account.studentprofile
 
+    member = Member.objects.filter(account=account).first()
+    if member:
+        role = member.role
+    else:
+        role = "MEMBER"
+
     if request.method == "POST":
         form = StudentProfileForm(request.POST, request.FILES, instance=student)
         if form.is_valid():
@@ -156,7 +161,8 @@ def profile(request):
 
     return render(request, "profile.html", {
         "form": form, 
-        "student": student
+        "student": student,
+        "role": role
     })
 
 def join_club(request):
@@ -185,22 +191,72 @@ def join_club(request):
             messages.success(request, f"ส่งคำขอเข้าร่วมชมรม {club.name} เรียบร้อยแล้ว")
     
     return redirect('main')
+def member(request):
+    if not request.user.is_authenticated:
+        return redirect('login')
+    
+    account = get_object_or_404(Account, email=request.user.email)
 
+    try:
+        member_role = Member.objects.get(account=account)
+    except Member.DoesNotExist:
+        messages.error(request, "ไม่พบข้อมูลสมาชิก")
+        return redirect('main')
+
+    if member_role.role != Member.Role.LEADER:
+        messages.error(request, "คุณไม่มีสิทธิ์เข้าถึงหน้านี้")
+        return redirect('main')
+
+    student = account.studentprofile
+    club = Club.objects.filter(leader=account).first()
+
+    if club:
+        member_count = club.members.count()
+        members = Member.objects.filter(clubs=club).select_related('account__studentprofile')
+        total_requests = MemberRequest.objects.filter(club=club, status='PENDING').count()
+        total_members = Member.objects.filter(clubs=club).count()
+        total_activities = Activity.objects.filter(club=club).count()
+    else:
+        club = None
+        member_count = 0
+        members = []
+        total_requests = 0
+        total_members = 0
+        total_activities = 0
+
+    return render(request, "member.html", {
+        "student": student,
+        "club": club,
+        "member_count": member_count,
+        "members": members,
+        "total_requests": total_requests,
+        "total_members": total_members,
+        "total_activities": total_activities,
+    })
 def club(request):
     if not request.user.is_authenticated:
         return redirect('login')
 
     account = get_object_or_404(Account, email=request.user.email)
-    club = Club.objects.filter(leader=account).first()
 
+    try:
+        member = Member.objects.get(account=account)
+    except Member.DoesNotExist:
+        messages.error(request, "ไม่พบข้อมูลสมาชิก")
+        return redirect('main')
+
+    if member.role != Member.Role.LEADER:
+        messages.error(request, "คุณไม่มีสิทธิ์เข้าถึงหน้านี้")
+        return redirect('main')
+
+    club = Club.objects.filter(leader=account).first()
     member_requests = []
     total_requests = 0
     activities = []
     if club:
         member_requests = MemberRequest.objects.filter(club=club, status='PENDING')
         total_requests = member_requests.count()
-        activities = Activity.objects.filter(club=club).order_by('-start_date')  # ดึงกิจกรรมของชมรม
-
+        activities = Activity.objects.filter(club=club).order_by('-start_date')
     context = {
         'club': club,
         'account': account,
@@ -256,16 +312,6 @@ def reject_request(request, request_id):
 
     messages.success(request, f"ปฏิเสธคำขอของ {member_request.account.studentprofile.first_name} เรียบร้อย")
     return redirect('club')
-
-@csrf_protect
-def club_detail(request, club_id):
-    club = get_object_or_404(Club, id=club_id)
-    activities = Activity.objects.filter(club=club).order_by('-start_date')
-    return render(request, 'club.html', {
-        'club': club,
-        'activities': activities,
-    })
-
 def create_activity(request):
     if request.method == 'POST':
         account = get_object_or_404(Account, email=request.user.email)
@@ -281,22 +327,26 @@ def create_activity(request):
             start_time=request.POST['start_time'],
             end_time=request.POST['end_time']
         )
-        # redirect กลับหน้า club
         return redirect('club')
-
 def delete_activity(request, id):
     activity = get_object_or_404(Activity, id=id)
     activity.delete()
     return redirect('club')
 
-def member(request):
-    if not request.user.is_authenticated:
-        return redirect('login')
-    return render(request, "member.html")
-
 def admin(request):
     if not request.user.is_authenticated:
         return redirect('login')
+
+    try:
+        account = Account.objects.get(email=request.user.email)
+        member = Member.objects.get(account=account)
+    except (Account.DoesNotExist, Member.DoesNotExist):
+        messages.error(request, "ไม่พบข้อมูลสมาชิก")
+        return redirect('main')
+
+    if member.role != Member.Role.ADMIN:
+        messages.error(request, "คุณไม่มีสิทธิ์เข้าถึงหน้านี้")
+        return redirect('main')
 
     club_requests = ClubRequest.objects.filter(status='PENDING')
     club = Club.objects.all()
@@ -313,6 +363,7 @@ def admin(request):
         "total_student": total_student,
         "total_requests": total_requests,
     })
+
 
 def approve_club_request(request, request_id):
     club_request = ClubRequest.objects.get(id=request_id)

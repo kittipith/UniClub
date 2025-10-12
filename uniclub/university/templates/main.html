@@ -20,7 +20,6 @@
 <body class="bg-gray-50">
     <div class="flex justify-between items-center bg-white h-20 px-10 py-4 shadow-[0_2px_4px_rgba(0,0,0,0.3)] z-50">
         <a href="{% url 'main' %}" class="flex justify-center items-center gap-4">
-            <i class="fa-solid fa-paw fa-3x"></i>
             <h1 class="text-[2.2rem] font-bold">UniClub</h1>
         </a>
         <label class="relative inline-block">
@@ -233,6 +232,18 @@
             document.getElementById("activity-popup").classList.add("hidden");
         }
     </script>
-
+    {% if messages %}
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+        <script>
+            {% for message in messages %}
+            Swal.fire({
+                icon: "{% if message.tags == 'error' %}error{% elif message.tags == 'success' %}success{% else %}info{% endif %}",
+                title: "{% if message.tags == 'error' %}เกิดข้อผิดพลาด{% else %}แจ้งเตือน{% endif %}",
+                text: "{{ message }}",
+                confirmButtonColor: "#f97316",
+            });
+            {% endfor %}
+        </script>
+    {% endif %}
 </body>
 </html>
