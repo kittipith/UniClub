@@ -16,7 +16,7 @@
     </style>
 </head>
 <body class="bg-gradient-to-br from-amber-400 to-orange-400 flex justify-center items-center min-h-screen">
-    <form method="POST" action="{% url 'signup' %}" id="regis" class="w-[30%] my-10">
+    <form method="POST" action="{% url 'signup' %}" id="regis" class="w-[90%] sm:w-[70%] lg:w-[50%] xl:w-[30%] my-10">
         {% csrf_token %}
         <div class="flex flex-col justify-center items-center mx-auto w-full border border-gray-200 shadow-lg rounded-3xl overflow-hidden">
             <div class="grid grid-cols-2 w-full">
@@ -32,15 +32,6 @@
             <div class="w-full p-5 flex flex-col justify-center items-center bg-white">
                 <h1 class="text-[2rem] font-bold text-center">UniClub</h1>
                 <p class="text-center">สร้างบัญชีใหม่</p>
-                {% if form.errors %}
-                    <div class="w-full bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded-lg my-3" role="alert">
-                        {% for field, errors in form.errors.items %}
-                            {% for error in errors %}
-                               <p>{{ error }}</p>
-                            {% endfor %}
-                        {% endfor %}
-                    </div>
-                {% endif %}
                 <div class="mb-4 w-full">
                     <label class="block mb-1 text-gray-700 font-medium">ชื่อ</label>
                     <div class="flex items-center border border-gray-300 rounded-lg px-4 py-2 focus-within:ring-2 focus-within:ring-amber-200">
@@ -61,6 +52,9 @@
                         <i class="fa-solid fa-id-card text-gray-400 mr-3"></i>
                         <input type="text" name="student_id" placeholder="รหัสนักศึกษา" class="flex-1 outline-none text-gray-700">
                     </div>
+                    {% if form.student_id.errors %}
+                        <p class="text-red-500 text-sm mt-1">{{ form.student_id.errors.0 }}</p>
+                    {% endif %}
                 </div>
                 <div class="mb-4 w-full">
                     <label class="block mb-1 text-gray-700 font-medium">คณะ</label>
@@ -106,6 +100,9 @@
                         <i class="fa-solid fa-phone text-gray-400 mr-3"></i>
                         <input type="text" name="phone" placeholder="เบอร์โทรศัพท์" class="flex-1 outline-none text-gray-700">
                     </div>
+                    {% if form.phone.errors %}
+                        <p class="text-red-500 text-sm mt-1">{{ form.phone.errors.0 }}</p>
+                    {% endif %}
                 </div>
                 <div class="mb-4 w-full">
                     <label class="block mb-1 text-gray-700 font-medium">Email</label>
@@ -113,6 +110,9 @@
                         <i class="fa-solid fa-envelope text-gray-400 mr-3"></i>
                         <input type="email" name="email" placeholder="อีเมลของสถาบัน" class="flex-1 outline-none text-gray-700">
                     </div>
+                    {% if form.email.errors %}
+                        <p class="text-red-500 text-sm mt-1">{{ form.email.errors.0 }}</p>
+                    {% endif %}
                 </div>
                 <div class="mb-4 w-full">
                     <label class="block mb-1 text-gray-700 font-medium">รหัสผ่าน</label>
@@ -120,6 +120,9 @@
                         <i class="fa-solid fa-lock text-gray-400 mr-3"></i>
                         <input type="password" name="password" placeholder="รหัสผ่าน" class="flex-1 outline-none text-gray-700">
                     </div>
+                    {% if form.password.errors %}
+                        <p class="text-red-500 text-sm mt-1">{{ form.password.errors.0 }}</p>
+                    {% endif %}
                 </div>
                 <div class="mb-4 w-full">
                     <label class="block mb-1 text-gray-700 font-medium">ยืนยันรหัสผ่าน</label>
@@ -127,6 +130,9 @@
                         <i class="fa-solid fa-lock text-gray-400 mr-3"></i>
                         <input type="password" name="confirm_password" placeholder="ยืนยันรหัสผ่าน" class="flex-1 outline-none text-gray-700">
                     </div>
+                    {% if form.confirm_password.errors %}
+                        <p class="text-red-500 text-sm mt-1">{{ form.confirm_password.errors.0 }}</p>
+                    {% endif %}
                 </div>
                 <button type="submit" onclick="openlogin()" class="w-full bg-orange-400 text-white text-[1.5rem] font-bold py-3 gap-3 rounded-2xl hover:bg-orange-600 transition-all duration-300 shadow-md my-5">
                     <i class="fa-solid fa-user-plus"></i>

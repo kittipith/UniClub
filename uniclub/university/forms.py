@@ -42,8 +42,12 @@ class SignUpForm(forms.Form):
             raise forms.ValidationError("รหัสผ่านไม่ตรงกัน")
 
     def clean_email(self):
-        email = self.cleaned_data.get('email')
-        if Account.objects.filter(email=email).exists():
+        email = self.cleaned_data.get("email")
+        if not email.endswith("@kmitl.ac.th"):
+            raise forms.ValidationError(
+                "Email ต้องลงท้ายด้วย @kmitl.ac.th"
+            )
+        elif Account.objects.filter(email=email).exists():
             raise forms.ValidationError("Email นี้ถูกใช้งานแล้ว")
         return email
 
@@ -56,7 +60,7 @@ class SignUpForm(forms.Form):
     def clean_phone(self):
         phone = self.cleaned_data.get('phone')
         if phone and (not phone.isdigit() or len(phone) != 10):
-            raise forms.ValidationError("เบอร์โทรศัพท์ต้องเป็นตัวเลข 10 หลัก")
+            raise forms.ValidationError("เบอร์โทรศัพท์ต้องมี 10 หลักและเป็นตัวเลขเท่านั้น")
         return phone
     
     def save(self):
@@ -100,3 +104,29 @@ class StudentProfileForm(ModelForm):
             'phone',
             'image',
         ]
+
+    def clean_email(self):
+        email = self.cleaned_data.get("email")
+        if not email.endswith("@kmitl.ac.th"):
+            raise forms.ValidationError("Email ต้องลงท้ายด้วย @kmitl.ac.th")
+        if StudentProfile.objects.filter(email=email).exclude(pk=self.instance.pk).exists():
+            raise forms.ValidationError("Email นี้ถูกใช้งานแล้ว")
+        return email
+    
+    def clean_year(self):
+        year = self.cleaned_data.get("year")
+        if year < 1 or year > 8:
+            raise forms.ValidationError("ชั้นปีต้องอยู่ระหว่าง 1-8")
+        return year
+    
+    def clean_student_id(self):
+        student_id = self.cleaned_data.get('student_id')
+        if StudentProfile.objects.filter(student_id=student_id).exists():
+            raise forms.ValidationError("รหัสนักศึกษานี้มีอยู่แล้ว")
+        return student_id
+
+    def clean_phone(self):
+        phone = self.cleaned_data.get('phone')
+        if phone and (not phone.isdigit() or len(phone) != 10):
+            raise forms.ValidationError("เบอร์โทรศัพท์ต้องมี 10 หลักและเป็นตัวเลขเท่านั้น")
+        return phone

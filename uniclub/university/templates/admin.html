@@ -44,7 +44,7 @@
     <div class="w-[80%] mx-auto py-8">
         <div class="flex flex-col gap-6">
             <div class="col-span-3">
-                <div class="grid grid-cols-3 gap-6 mb-8">
+                <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 mb-8">
                     <div class="bg-white rounded-2xl shadow-lg p-6">
                         <div class="flex items-center justify-between">
                             <div>
@@ -80,26 +80,28 @@
                     </div>
                 </div>
             </div>
-            <div class="grid grid-cols-3 gap-10">
-                <div class="col-span-2">
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-10">
+                <div class="lg:col-span-2">
                     <table class="table-fixed min-w-full divide-y divide-orange-100">
                         <thead class="bg-orange-100 text-left text-sm font-semibold text-gray-700">
                             <tr>
                                 <th class="px-4 py-3">รูป</th>
                                 <th class="px-4 py-3">รหัสนักศึกษา</th>
                                 <th class="px-4 py-3">ชื่อ-นามสกุล</th>
-                                <th class="px-4 py-3">คณะ</th>
-                                <th class="px-4 py-3">ชั้นปี</th>
+                                <th class="px-4 py-3 hidden sm:table-cell">คณะ</th>
+                                <th class="px-4 py-3 hidden sm:table-cell">ชั้นปี</th>
                             </tr>
                         </thead>
                         <tbody class="divide-y divide-gray-100 text-sm">
                             {% for i in student %}
                                 <tr class="hover:bg-orange-50 transition">
-                                    <td class="px-4 py-3"><img src="../static/img/user.png" class="size-8 rounded-full"></td>
+                                    <td class="px-4 py-3">
+                                        <img src="{% if i.account.studentprofile.image %}{{ i.account.studentprofile.image.url }}{% else %}{% static 'img/user.png' %}{% endif %}" class="size-8 rounded-full">
+                                    </td>
                                     <td class="px-4 py-3">{{ i.student_id }}</td>
                                     <td class="px-4 py-3">{{ i.first_name }} {{ i.last_name }}</td>
-                                    <td class="px-4 py-3">{{ i.faculty }}</td>
-                                    <td class="px-4 py-3">{{ i.year }}</td>
+                                    <td class="px-4 py-3 hidden sm:table-cell">{{ i.faculty }}</td>
+                                    <td class="px-4 py-3 hidden sm:table-cell">{{ i.year }}</td>
                                 </tr>
                             {% endfor %}
                         </tbody>

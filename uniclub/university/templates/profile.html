@@ -18,9 +18,15 @@
     <form method="POST" enctype="multipart/form-data">
         {% csrf_token %}
         <div class="flex justify-between items-center bg-white h-20 px-10 py-4 shadow-md">
-            <a href="{% url 'main' %}" class="flex items-center gap-4">
-                <h1 class="text-[2.2rem] font-bold text-gray-800">UniClub</h1>
-            </a>
+            {% if role == "MEMBER" %}
+                <a href="{% url 'main' %}" class="flex items-center gap-4">
+                    <h1 class="text-[2.2rem] font-bold text-gray-800">UniClub</h1>
+                </a>
+            {% elif role == "LEADER" %}
+                <a href="{% url 'leader' %}" class="flex items-center gap-4">
+                    <h1 class="text-[2.2rem] font-bold text-gray-800">UniClub</h1>
+                </a>
+            {% endif %}
         
             <label class="relative inline-block">
                 <input type="checkbox" class="hidden peer" />
@@ -44,7 +50,7 @@
             </label>
         </div>
     
-        <div class="w-[60%] flex flex-col mx-auto my-10">
+        <div class="w-[95%] md:w-[80%] xl:w-[60%] flex flex-col mx-auto my-10">
             <div class="flex justify-start mb-5">
                 {% if role == "MEMBER" %}
                     <a href="{% url 'main' %}" class="flex items-center gap-3 px-7 py-2 border border-orange-500 text-orange-500 text-[1.2rem] rounded-xl bg-white hover:bg-orange-50">
@@ -57,8 +63,8 @@
                 {% endif %}
             </div>
         
-            <div class="flex justify-between items-center mb-5 mx-1">
-                <div>
+            <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-5 mx-1">
+                <div class="mb-3 sm:mb-0">
                     <h1 class="text-[2rem] font-bold">โปรไฟล์ของฉัน</h1>
                     <p class="text-[1rem] font-light">จัดการข้อมูลส่วนตัว</p>
                 </div>
@@ -69,10 +75,10 @@
                 </div>
             </div>
         
-            <div class="w-full grid grid-cols-3 gap-10">
-                <div class="col-span-2 border border-gray-200 shadow-sm rounded-xl bg-white p-5">
+            <div class="w-full grid grid-cols-1 sm:grid-cols-3 gap-10">
+                <div class="sm:col-span-2 border border-gray-200 shadow-sm rounded-xl bg-white p-5">
                     <h1 class="text-[1.4rem] font-bold mb-5">ข้อมูลส่วนตัว</h1>
-                    <div class="grid grid-cols-2 gap-5 text-[1.1rem]">
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-5 text-[1.1rem]">
                         <div>
                             <p>ชื่อ</p>
                             <input type="text" name="first_name" value="{{ student.first_name }}" class="w-full border rounded-md p-1 hidden editable">
@@ -87,31 +93,57 @@
                             <p>รหัสนักศึกษา</p>
                             <input type="text" name="student_id" value="{{ student.student_id }}" class="w-full border rounded-md p-1 hidden editable">
                             <p class="font-bold staticText">{{ student.student_id }}</p>
+                            {% if form.student_id.errors %}
+                                <p class="text-red-500 text-sm mt-1">{{ form.student_id.errors.0 }}</p>
+                            {% endif %}
                         </div>
                         <div>
                             <p>คณะ</p>
-                            <input type="text" name="faculty" value="{{ student.faculty }}" class="w-full border rounded-md p-1 hidden editable">
+                            <select name="faculty" class="w-full border rounded-md p-1 hidden editable">
+                                <option value="" disabled {% if not student.faculty %}selected{% endif %}>----- เลือกคณะ -----</option>
+                                <option value="คณะวิศวกรรมศาสตร์" {% if student.faculty == "คณะวิศวกรรมศาสตร์" %}selected{% endif %}>คณะวิศวกรรมศาสตร์</option>
+                                <option value="คณะสถาปัตยกรรม ศิลปะและการออกแบบ" {% if student.faculty == "คณะสถาปัตยกรรม ศิลปะและการออกแบบ" %}selected{% endif %}>คณะสถาปัตยกรรม ศิลปะและการออกแบบ</option>
+                                <option value="คณะครุศาสตร์อุตสาหกรรมและเทคโนโลยี" {% if student.faculty == "คณะครุศาสตร์อุตสาหกรรมและเทคโนโลยี" %}selected{% endif %}>คณะครุศาสตร์อุตสาหกรรมและเทคโนโลยี</option>
+                                <option value="คณะเทคโนโลยีการเกษตร" {% if student.faculty == "คณะเทคโนโลยีการเกษตร" %}selected{% endif %}>คณะเทคโนโลยีการเกษตร</option>
+                                <option value="คณะวิทยาศาสตร์" {% if student.faculty == "คณะวิทยาศาสตร์" %}selected{% endif %}>คณะวิทยาศาสตร์</option>
+                                <option value="คณะอุตสาหกรรมอาหาร" {% if student.faculty == "คณะอุตสาหกรรมอาหาร" %}selected{% endif %}>คณะอุตสาหกรรมอาหาร</option>
+                                <option value="คณะเทคโนโลยีสารสนเทศ" {% if student.faculty == "คณะเทคโนโลยีสารสนเทศ" %}selected{% endif %}>คณะเทคโนโลยีสารสนเทศ</option>
+                                <option value="คณะบริหารธุรกิจ" {% if student.faculty == "คณะบริหารธุรกิจ" %}selected{% endif %}>คณะบริหารธุรกิจ</option>
+                                <option value="คณะศิลปศาสตร์" {% if student.faculty == "คณะศิลปศาสตร์" %}selected{% endif %}>คณะศิลปศาสตร์</option>
+                                <option value="คณะแพทยศาสตร์" {% if student.faculty == "คณะแพทยศาสตร์" %}selected{% endif %}>คณะแพทยศาสตร์</option>
+                                <option value="คณะทันตแพทยศาสตร์" {% if student.faculty == "คณะทันตแพทยศาสตร์" %}selected{% endif %}>คณะทันตแพทยศาสตร์</option>
+                                <option value="คณะพยาบาลศาสตร์" {% if student.faculty == "คณะพยาบาลศาสตร์" %}selected{% endif %}>คณะพยาบาลศาสตร์</option>
+                            </select>
                             <p class="font-bold staticText">{{ student.faculty }}</p>
                         </div>
                         <div>
                             <p>ชั้นปี</p>
                             <input type="number" name="year" value="{{ student.year }}" class="w-full border rounded-md p-1 hidden editable">
                             <p class="font-bold staticText">{{ student.year }}</p>
+                            {% if form.year.errors %}
+                                <p class="text-red-500 text-sm mt-1">{{ form.year.errors.0 }}</p>
+                            {% endif %}
                         </div>
                         <div>
                             <p>อีเมล</p>
                             <input type="email" name="email" value="{{ student.email }}" class="w-full border rounded-md p-1 hidden editable">
                             <p class="font-bold staticText">{{ student.email }}</p>
+                            {% if form.email.errors %}
+                                <p class="text-red-500 text-sm mt-1">{{ form.email.errors.0 }}</p>
+                            {% endif %}
                         </div>
                         <div>
                             <p>เบอร์โทรศัพท์</p>
                             <input type="text" name="phone" value="{{ student.phone }}" class="w-full border rounded-md p-1 hidden editable">
                             <p class="font-bold staticText">{{ student.phone|default:"-" }}</p>
+                            {% if form.phone.errors %}
+                                <p class="text-red-500 text-sm mt-1">{{ form.phone.errors.0 }}</p>
+                            {% endif %}
                         </div>
                     </div>
                 </div>
             
-                <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6 text-center">
+                <div class="bg-white w-full rounded-xl shadow-sm border border-gray-200 p-6 text-center">
                     <div class="relative inline-block mb-4">
                         <img id="profileImage" src="{% if student.image %}{{ student.image.url }}{% else %}/static/img/user.png{% endif %}" class="w-32 h-32 rounded-full object-cover">
                         <button type="button" id="changePhotoBtn" class="absolute bottom-2 right-2 bg-white rounded-full p-2 shadow-lg hover:bg-gray-100 transition">

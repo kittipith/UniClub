@@ -17,19 +17,27 @@
         {% csrf_token %}
         <div class="flex flex-col justify-center items-center mx-auto w-full border border-gray-200 shadow-lg rounded-3xl overflow-hidden">
             <div class="w-full p-8 flex flex-col justify-center items-center bg-white">
-                <h1 class="text-[2rem] font-bold text-center mb-2">ลืมรหัสผ่าน</h1>
-                <p class="text-center mb-6 text-gray-600">กรอกอีเมลของคุณเพื่อรีเซ็ตรหัสผ่าน</p>
+                <h1 class="text-[2rem] font-bold text-center mb-2">ตั้งรหัสผ่านใหม่</h1>
+                <p class="text-center mb-6 text-gray-600">อีเมล: <strong>{{ email }}</strong></p>
+
+                <div class="mb-4 w-full">
+                    <label class="block mb-1 text-gray-700 font-medium">รหัสผ่านใหม่</label>
+                    <div class="flex items-center border border-gray-300 rounded-lg px-4 py-2 focus-within:ring-2 focus-within:ring-amber-200">
+                        <i class="fa-solid fa-lock text-gray-400 mr-3"></i>
+                        <input type="password" name="new_password" placeholder="กรอกรหัสผ่านใหม่" class="flex-1 outline-none text-gray-700" required>
+                    </div>
+                </div>
 
                 <div class="mb-6 w-full">
-                    <label class="block mb-1 text-gray-700 font-medium">อีเมล</label>
+                    <label class="block mb-1 text-gray-700 font-medium">ยืนยันรหัสผ่านใหม่</label>
                     <div class="flex items-center border border-gray-300 rounded-lg px-4 py-2 focus-within:ring-2 focus-within:ring-amber-200">
-                        <i class="fa-solid fa-envelope text-gray-400 mr-3"></i>
-                        <input type="email" name="email" placeholder="อีเมลสถาบันของคุณ" class="flex-1 outline-none text-gray-700" required>
+                        <i class="fa-solid fa-lock text-gray-400 mr-3"></i>
+                        <input type="password" name="confirm_password" placeholder="ยืนยันรหัสผ่านใหม่" class="flex-1 outline-none text-gray-700" required>
                     </div>
                 </div>
 
                 <button type="submit" class="w-full bg-orange-400 text-white text-[1.2rem] font-bold py-3 rounded-2xl hover:bg-orange-600 transition-all duration-300 shadow-md">
-                    ถัดไป
+                    ยืนยัน
                 </button>
 
                 <a href="{% url 'login' %}" class="mt-5 text-orange-600 hover:text-orange-800 transition-colors duration-300">กลับไปหน้าเข้าสู่ระบบ</a>
