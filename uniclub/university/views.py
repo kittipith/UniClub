@@ -115,7 +115,7 @@ def reset_password(request):
 
         if new_password != confirm_password:
             messages.error(request, "รหัสผ่านไม่ตรงกัน")
-            return redirect('reset')
+            return redirect('reset_password')
 
         try:
             user = User.objects.get(email=email)

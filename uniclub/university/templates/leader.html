@@ -53,7 +53,7 @@
     </div>
 
     <div class="w-[95%] 2xl:w-[80%] mx-auto grid grid-cols-1 xl:grid-cols-3 gap-10 my-10">
-        <div class="col-span-2 flex flex-col">
+        <div class="sm:col-span-2 flex flex-col">
             <h1 class="text-[2rem] font-bold">ยินดีต้อนรับ, {{ user.first_name }}!</h1>
             <p class="text-[1rem] font-light">เยี่ยมชมรมทั้งหมดในมหาวิทยาลัย หรือดูกิจกรรมที่น่าสนใจในแต่ละชมรม</p>
 
@@ -150,43 +150,8 @@
         </div>
     </div>
 
-    <form method="POST" action="{% url 'create_club' %}" enctype="multipart/form-data">
-        {% csrf_token %}
-        <div id="popup" class="hidden fixed inset-0 flex justify-center items-center bg-black bg-opacity-50 backdrop-blur-sm z-50">
-            <div class="bg-white p-5 rounded-xl flex flex-col w-[25%] shadow-lg relative">
-                <div class="flex justify-between w-full mb-5">
-                    <h1 class="text-[1.5rem] font-extrabold">สร้างชมรมใหม่</h1>
-                    <i class="fa-solid fa-xmark fa-2x text-gray-600 hover:text-red-500 cursor-pointer" onclick="closeNewClub()"></i>
-                </div>
-                <div class="mb-4 w-full">
-                    <label class="block mb-1 text-gray-700 font-medium">ชื่อชมรม</label>
-                    <input type="text" name="name" placeholder="กรุณาใส่ชื่อชมรม" class="w-full border-2 border-gray-200 rounded-2xl px-5 py-2 focus:outline-none focus:border-blue-600">
-                </div>
-                <div class="mb-4 w-full">
-                    <label class="block mb-1 text-gray-700 font-medium">ที่ตั้งห้องชมรม</label>
-                    <input type="text" name="location" placeholder="กรุณาใส่ห้องชมรมที่ต้องการใช้" class="w-full border-2 border-gray-200 rounded-2xl px-5 py-2 focus:outline-none focus:border-blue-600">
-                </div>
-                <div class="mb-4 w-full">
-                    <label class="block mb-1 text-gray-700 font-medium">รายละเอียดชมรม</label>
-                    <textarea name="description" placeholder="รายละเอียดเกี่ยวกับชมรม" class="w-full border-2 border-gray-200 rounded-2xl px-5 py-2 focus:outline-none focus:border-blue-600"></textarea>
-                </div>
-                <div class="mb-4 w-full">
-                    <label class="block mb-1 text-gray-700 font-medium">รูปภาพชมรม</label>
-                    <label class="flex flex-col items-center justify-center w-full h-12 bg-white border-2 border-gray-200 rounded-2xl cursor-pointer hover:border-blue-600 transition">
-                        <span>คลิกเพื่ออัปโหลดไฟล์</span>
-                        <input type="file" class="hidden" name="image" />
-                    </label>
-                </div>
-                <div class="flex justify-end gap-5 mt-5">
-                    <button type="button" onclick="closeNewClub()" class="px-7 py-2 bg-white text-orange-500 border border-orange-500 rounded-xl hover:bg-orange-50">ยกเลิก</button>
-                    <button type="submit" class="px-7 py-2 bg-orange-500 text-white rounded-xl hover:bg-orange-700">ยืนยัน</button>
-                </div>
-            </div>
-        </div>
-    </form>
-
     <div id="activity-popup" class="hidden fixed inset-0 flex justify-center items-center bg-black bg-opacity-50 backdrop-blur-sm z-50">
-        <div class="bg-white rounded-2xl w-[35%] shadow-lg overflow-hidden">
+        <div class="bg-white rounded-2xl w-[80%] md:w-[60%] 2xl:w-[35%] shadow-lg overflow-hidden">
             <div class="relative">
                 <img id="activity-img" src="{% static 'img/bg1.jpg' %}" class="w-full h-48 object-cover">
                 <button onclick="closeActivity()" class="absolute top-4 left-4 w-8 h-8 bg-white bg-opacity-80 rounded-full flex items-center justify-center hover:bg-opacity-100 transition">

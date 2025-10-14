@@ -47,7 +47,7 @@
     </div>
 
     <div class="w-[95%] 2xl:w-[80%] mx-auto grid grid-cols-1 xl:grid-cols-3 gap-10 my-10">
-        <div class="col-span-2 flex flex-col">
+        <div class="sm:col-span-2 flex flex-col">
             <h1 class="text-[2rem] font-bold">ยินดีต้อนรับ, {{ user.first_name }}!</h1>
             <p class="text-[1rem] font-light">เยี่ยมชมรมทั้งหมดในมหาวิทยาลัย หรือดูกิจกรรมที่น่าสนใจในแต่ละชมรม</p>
             <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center w-full my-5">
@@ -154,7 +154,7 @@
     <form method="POST" action="{% url 'create_club' %}" enctype="multipart/form-data">
         {% csrf_token %}
         <div id="popup" class="hidden fixed inset-0 flex justify-center items-center bg-black bg-opacity-50 backdrop-blur-sm z-50">
-            <div class="bg-white p-5 rounded-xl flex flex-col w-[25%] shadow-lg relative">
+            <div class="bg-white p-5 rounded-xl flex flex-col w-[80%] md:w-[50%] 2xl:w-[25%] shadow-lg relative">
                 <div class="flex justify-between w-full mb-5">
                     <h1 class="text-[1.5rem] font-extrabold">สร้างชมรมใหม่</h1>
                     <i class="fa-solid fa-xmark fa-2x text-gray-600 hover:text-red-500 cursor-pointer" onclick="closeNewClub()"></i>
@@ -187,7 +187,7 @@
     </form>
 
     <div id="activity-popup" class="hidden fixed inset-0 flex justify-center items-center bg-black bg-opacity-50 backdrop-blur-sm z-50">
-        <div class="bg-white rounded-2xl w-[35%] shadow-lg overflow-hidden">
+        <div class="bg-white rounded-2xl w-[80%] md:w-[60%] 2xl:w-[35%] shadow-lg overflow-hidden">
             <div class="relative">
                 <img id="activity-img" src="{% static 'img/bg1.jpg' %}" class="w-full h-48 object-cover">
                 <button onclick="closeActivity()" class="absolute top-4 left-4 w-8 h-8 bg-white bg-opacity-80 rounded-full flex items-center justify-center hover:bg-opacity-100 transition">
