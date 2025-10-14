@@ -68,28 +68,28 @@
 
             <div class="w-full grid grid-cols-1 sm:grid-cols-2 gap-5">
                 {% for i in club %}
-                <div class="border rounded-2xl h-[330px] flex flex-col">
-                    <img class="w-full h-28 object-cover rounded-t-2xl" src="{% if i.image %}{{ i.image.url }}{% else %}{% static 'img/bg1.jpg' %}{% endif %}">
-                    <div class="flex-1 flex flex-col px-3 py-3 justify-between">
-                        <div>
-                            <h1 class="text-[1.5rem] font-bold">{{ i.name }}</h1>
-                            <p class="text-gray-600 text-[1rem]">{{ i.description }}</p>
-                        </div>
-                        <div>
-                            <div class="flex justify-between my-5 text-gray-600 text-[0.9rem]">
-                                <p class="flex items-center gap-2"><i class="fa-solid fa-users"></i>สมาชิก {{ i.members.count }} คน</p>
-                                <p class="flex items-center gap-2"><i class="fa-solid fa-location-dot"></i>{{ i.location }}</p>
+                    <div class="border rounded-2xl h-[330px] flex flex-col">
+                        <img class="w-full h-28 object-cover rounded-t-2xl" src="{% if i.image %}{{ i.image.url }}{% else %}{% static 'img/bg1.jpg' %}{% endif %}">
+                        <div class="flex-1 flex flex-col px-3 py-3 justify-between">
+                            <div>
+                                <h1 class="text-[1.5rem] font-bold">{{ i.name }}</h1>
+                                <p class="text-gray-600 text-[1rem]">{{ i.description }}</p>
                             </div>
-                            <form method="POST" action="{% url 'join_club' %}">
-                                {% csrf_token %}
-                                <input type="hidden" name="club_id" value="{{ i.id }}">
-                                <button type="submit" class="w-full py-2 px-5 bg-orange-500 text-white rounded-2xl text-[1.3rem] font-medium hover:bg-orange-700 flex justify-center items-center gap-3">
-                                    <i class="fa-solid fa-user-plus"></i>สมัครเข้าชมรม
-                                </button>
-                            </form>
+                            <div>
+                                <div class="flex justify-between my-5 text-gray-600 text-[0.9rem]">
+                                    <p class="flex items-center gap-2"><i class="fa-solid fa-users"></i>สมาชิก {{ i.members.count }} คน</p>
+                                    <p class="flex items-center gap-2"><i class="fa-solid fa-location-dot"></i>{{ i.location }}</p>
+                                </div>
+                                <form method="POST" action="{% url 'join_club' %}">
+                                    {% csrf_token %}
+                                    <input type="hidden" name="club_id" value="{{ i.id }}">
+                                    <button type="submit" class="w-full py-2 px-5 bg-orange-500 text-white rounded-2xl text-[1.3rem] font-medium hover:bg-orange-700 flex justify-center items-center gap-3">
+                                        <i class="fa-solid fa-user-plus"></i>สมัครเข้าชมรม
+                                    </button>
+                                </form>
+                            </div>
                         </div>
                     </div>
-                </div>
                 {% endfor %}
             </div>
         </div>

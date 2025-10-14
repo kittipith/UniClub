@@ -39,12 +39,13 @@ def signup(request):
                 password=make_password(data['password']),
                 studentprofile=student
             )
+
             Member.objects.create(
                 account=account,
                 role=Member.Role.MEMBER
             )
             auth_login(request, user)
-            return redirect('login')
+            return redirect('main')
     else:
         form = SignUpForm()
 
@@ -54,24 +55,16 @@ def login(request):
     if request.method == 'POST':
         email = request.POST.get('email')
         password = request.POST.get('password')
-
-        try:
-            user_object = User.objects.get(username=email)
-        except User.DoesNotExist:
-            messages.error(request, "ไม่พบบัญชีนี้")
-            return render(request, 'index.html')
         
         user = authenticate(request, username=email, password=password)
         if user is not None:
             auth_login(request, user)
-
             try:
                 account = Account.objects.get(email=email)
                 member = Member.objects.get(account=account)
             except (Account.DoesNotExist, Member.DoesNotExist):
                 messages.error(request, "ไม่พบข้อมูล role")
                 return render(request, 'index.html')
-
             if member.role == Member.Role.MEMBER:
                 return redirect('main')
             elif member.role == Member.Role.LEADER:
@@ -81,11 +74,9 @@ def login(request):
             else:
                 messages.error(request, "Role ไม่ถูกต้อง")
                 return render(request, 'index.html')
-
         else:
-            messages.error(request, "รหัสผ่านไม่ถูกต้อง")
+            messages.error(request, "รหัสผ่านหรืออีเมลไม่ถูกต้อง")
             return render(request, 'index.html')
-
     return render(request, 'index.html')
 
 def forgot(request):
@@ -112,18 +103,14 @@ def reset_password(request):
     if request.method == "POST":
         new_password = request.POST.get('new_password')
         confirm_password = request.POST.get('confirm_password')
-
         if new_password != confirm_password:
             messages.error(request, "รหัสผ่านไม่ตรงกัน")
             return redirect('reset_password')
-
         try:
             user = User.objects.get(email=email)
             account = Account.objects.get(email=email)
-
             user.set_password(new_password)
             user.save()
-
             account.password = make_password(new_password)
             account.save()
 
@@ -175,6 +162,9 @@ def main(request):
     })
 
 def create_club(request):
+    if not request.user.is_authenticated:
+        return redirect('login')
+    
     if request.method == 'POST':
         name = request.POST.get('name')
         description = request.POST.get('description')
@@ -202,6 +192,9 @@ def create_club(request):
     return redirect('main')
 
 def profile(request):
+    if not request.user.is_authenticated:
+        return redirect('login')
+    
     account = get_object_or_404(Account, email=request.user.email)
     student = account.studentprofile
 
@@ -226,6 +219,9 @@ def profile(request):
     })
 
 def join_club(request):
+    if not request.user.is_authenticated:
+        return redirect('login')
+    
     if request.method == "POST":
         club_id = request.POST.get("club_id")
         if not club_id:
@@ -267,70 +263,19 @@ def leader(request):
             return redirect('login')
 
     student = account.studentprofile
-    club = Club.objects.filter(leader=account).first()
-    club_members = Member.objects.filter(clubs=club).select_related('account__studentprofile') if club else []
     activity = Activity.objects.all()
     search = request.GET.get("search", "")
-    club_qs = Club.objects.annotate(member_count=Count('members'))
+    club = Club.objects.annotate(member_count=Count('members'))
     if search:
-        club_qs = club_qs.filter(name__icontains=search)
+        club = club.filter(name__icontains=search)
 
     return render(request, "leader.html", {
         "student": student,
-        "club": club_qs,
+        "club": club,
         "activity": activity,
         "search": search,
         "user": request.user,
         "member": member,
-        "club_members": club_members
-    })
-
-def member(request):
-    if not request.user.is_authenticated:
-        return redirect('login')
-    
-    account = get_object_or_404(Account, email=request.user.email)
-
-    try:
-        member = Member.objects.get(account=account)
-    except Member.DoesNotExist:
-        messages.error(request, "ไม่พบข้อมูลสมาชิก")
-        return redirect('main')
-
-    if member.role != Member.Role.LEADER:
-        messages.error(request, "คุณไม่มีสิทธิ์เข้าถึงหน้านี้")
-        if member.role == Member.Role.MEMBER:
-            return redirect('main')
-        elif member.role == Member.Role.ADMIN:
-            return redirect('admin')
-        else:
-            return redirect('login')
-
-    student = account.studentprofile
-    club = Club.objects.filter(leader=account).first()
-
-    if club:
-        member_count = club.members.count()
-        members = Member.objects.filter(clubs=club).select_related('account__studentprofile')
-        total_requests = MemberRequest.objects.filter(club=club, status='PENDING').count()
-        total_members = Member.objects.filter(clubs=club).count()
-        total_activities = Activity.objects.filter(club=club).count()
-    else:
-        club = None
-        member_count = 0
-        members = []
-        total_requests = 0
-        total_members = 0
-        total_activities = 0
-
-    return render(request, "member.html", {
-        "student": student,
-        "club": club,
-        "member_count": member_count,
-        "members": members,
-        "total_requests": total_requests,
-        "total_members": total_members,
-        "total_activities": total_activities,
     })
 
 def club(request):
@@ -374,7 +319,55 @@ def club(request):
         'total_activity': activities.count()
     })
 
+def member(request):
+    if not request.user.is_authenticated:
+        return redirect('login')
+    
+    account = get_object_or_404(Account, email=request.user.email)
+
+    try:
+        member = Member.objects.get(account=account)
+    except Member.DoesNotExist:
+        messages.error(request, "ไม่พบข้อมูลสมาชิก")
+        return redirect('main')
+
+    if member.role != Member.Role.LEADER:
+        messages.error(request, "คุณไม่มีสิทธิ์เข้าถึงหน้านี้")
+        if member.role == Member.Role.MEMBER:
+            return redirect('main')
+        elif member.role == Member.Role.ADMIN:
+            return redirect('admin')
+        else:
+            return redirect('login')
+
+    student = account.studentprofile
+    club = Club.objects.filter(leader=account).first()
+
+    if club:
+        members = Member.objects.filter(clubs=club).select_related('account__studentprofile')
+        total_requests = MemberRequest.objects.filter(club=club, status='PENDING').count()
+        total_members = Member.objects.filter(clubs=club).count()
+        total_activities = Activity.objects.filter(club=club).count()
+    else:
+        club = None
+        members = []
+        total_requests = 0
+        total_members = 0
+        total_activities = 0
+
+    return render(request, "member.html", {
+        "student": student,
+        "club": club,
+        "members": members,
+        "total_requests": total_requests,
+        "total_members": total_members,
+        "total_activities": total_activities,
+    })
+
 def approve_request(request, request_id):
+    if not request.user.is_authenticated:
+        return redirect('login')
+    
     member_request = get_object_or_404(MemberRequest, id=request_id)
     leader_account = get_object_or_404(Account, email=request.user.email)
 
@@ -397,8 +390,11 @@ def approve_request(request, request_id):
     return redirect('club')
 
 def reject_request(request, request_id):
+    if not request.user.is_authenticated:
+        return redirect('login')
+    
     if request.method != 'POST':
-        messages.error(request, "Method not allowed.")
+        messages.error(request, "ไม่สามารถทำได้")
         return redirect('club')
 
     member_request = get_object_or_404(MemberRequest, id=request_id)
@@ -410,6 +406,9 @@ def reject_request(request, request_id):
     return redirect('club')
 
 def create_activity(request):
+    if not request.user.is_authenticated:
+        return redirect('login')
+
     if request.method == 'POST':
         account = get_object_or_404(Account, email=request.user.email)
         club = get_object_or_404(Club, leader=account)
@@ -427,6 +426,9 @@ def create_activity(request):
         return redirect('club')
 
 def delete_activity(request, id):
+    if not request.user.is_authenticated:
+        return redirect('login')
+
     activity = get_object_or_404(Activity, id=id)
     activity.delete()
     return redirect('club')
@@ -468,9 +470,12 @@ def admin(request):
     })
 
 def approve_club_request(request, request_id):
-    club_request = ClubRequest.objects.get(id=request_id)
+    if not request.user.is_authenticated:
+        return redirect('login')
 
+    club_request = ClubRequest.objects.get(id=request_id)
     account = club_request.requested_by
+
     club = Club.objects.create(
         name=club_request.name,
         description=club_request.description,
@@ -495,6 +500,9 @@ def approve_club_request(request, request_id):
     return redirect('admin')
 
 def reject_club_request(request, request_id):
+    if not request.user.is_authenticated:
+        return redirect('login')
+
     if request.method != 'POST':
         return redirect('admin')
 
@@ -505,6 +513,9 @@ def reject_club_request(request, request_id):
     return redirect('admin')
 
 def delete_club(request, club_id):
+    if not request.user.is_authenticated:
+        return redirect('login')
+
     if request.method == 'POST':
         club = get_object_or_404(Club, id=club_id)
         leader_account = club.leader
@@ -515,9 +526,8 @@ def delete_club(request, club_id):
             member.role = Member.Role.MEMBER
             member.save()
         except Member.DoesNotExist:
-            messages.warning(request, "ไม่พบ Member สำหรับหัวหน้าชมรมนี้")
+            messages.warning(request, "ไม่พบหัวหน้าชมรมนี้")
 
         club.delete()
         messages.success(request, f"ปิดชมรม {club.name} เรียบร้อย")
-
     return redirect('admin')
