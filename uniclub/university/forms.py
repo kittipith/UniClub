@@ -44,9 +44,7 @@ class SignUpForm(forms.Form):
     def clean_email(self):
         email = self.cleaned_data.get("email")
         if not email.endswith("@kmitl.ac.th"):
-            raise forms.ValidationError(
-                "Email ต้องลงท้ายด้วย @kmitl.ac.th"
-            )
+            raise forms.ValidationError("Email ต้องลงท้ายด้วย @kmitl.ac.th")
         elif Account.objects.filter(email=email).exists():
             raise forms.ValidationError("Email นี้ถูกใช้งานแล้ว")
         return email

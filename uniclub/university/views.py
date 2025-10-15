@@ -5,9 +5,8 @@ from django.contrib import messages
 from django.db.models import Count
 from .models import *
 from .forms import SignUpForm, StudentProfileForm
-from django.contrib.auth.hashers import make_password, check_password
+from django.contrib.auth.hashers import make_password
 from django.contrib.auth.models import User
-from django.views.decorators.csrf import csrf_protect
 
 def signup(request):
     if request.method == 'POST':
@@ -18,11 +17,10 @@ def signup(request):
             user = User.objects.create_user(
                 username=data['email'],
                 email=data['email'],
+                password=data['password'],
                 first_name=data['first_name'],
                 last_name=data['last_name']
             )
-            user.set_password(data['password'])
-            user.save()
 
             student = StudentProfile.objects.create(
                 student_id=data['student_id'],
@@ -59,12 +57,8 @@ def login(request):
         user = authenticate(request, username=email, password=password)
         if user is not None:
             auth_login(request, user)
-            try:
-                account = Account.objects.get(email=email)
-                member = Member.objects.get(account=account)
-            except (Account.DoesNotExist, Member.DoesNotExist):
-                messages.error(request, "ไม่พบข้อมูล role")
-                return render(request, 'index.html')
+            account = Account.objects.get(email=email)
+            member = Member.objects.get(account=account)
             if member.role == Member.Role.MEMBER:
                 return redirect('main')
             elif member.role == Member.Role.LEADER:
@@ -118,7 +112,6 @@ def reset_password(request):
 
             messages.success(request, "เปลี่ยนรหัสผ่านเรียบร้อยแล้ว")
             return redirect('login')
-
         except (User.DoesNotExist, Account.DoesNotExist):
             messages.error(request, "ไม่พบบัญชีนี้ในระบบ")
             return redirect('forgot')
@@ -194,15 +187,12 @@ def create_club(request):
 def profile(request):
     if not request.user.is_authenticated:
         return redirect('login')
-    
-    account = get_object_or_404(Account, email=request.user.email)
-    student = account.studentprofile
 
-    member = Member.objects.filter(account=account).first()
-    if member:
-        role = member.role
-    else:
-        role = "MEMBER"
+    account = get_object_or_404(Account, email=request.user.email)
+    member = get_object_or_404(Member, account=account)
+
+    student = account.studentprofile
+    role = member.role
 
     if request.method == "POST":
         form = StudentProfileForm(request.POST, request.FILES, instance=student)
@@ -283,12 +273,7 @@ def club(request):
         return redirect('login')
 
     account = get_object_or_404(Account, email=request.user.email)
-
-    try:
-        member = Member.objects.get(account=account)
-    except Member.DoesNotExist:
-        messages.error(request, "ไม่พบข้อมูลสมาชิก")
-        return redirect('main')
+    member = get_object_or_404(Member, account=account)
 
     if member.role != Member.Role.LEADER:
         messages.error(request, "คุณไม่มีสิทธิ์เข้าถึงหน้านี้")
@@ -324,12 +309,7 @@ def member(request):
         return redirect('login')
     
     account = get_object_or_404(Account, email=request.user.email)
-
-    try:
-        member = Member.objects.get(account=account)
-    except Member.DoesNotExist:
-        messages.error(request, "ไม่พบข้อมูลสมาชิก")
-        return redirect('main')
+    member = get_object_or_404(Member, account=account)
 
     if member.role != Member.Role.LEADER:
         messages.error(request, "คุณไม่มีสิทธิ์เข้าถึงหน้านี้")
@@ -398,7 +378,6 @@ def reject_request(request, request_id):
         return redirect('club')
 
     member_request = get_object_or_404(MemberRequest, id=request_id)
-
     member_request.status = 'REJECTED'
     member_request.save()
 
@@ -436,13 +415,9 @@ def delete_activity(request, id):
 def admin(request):
     if not request.user.is_authenticated:
         return redirect('login')
-
-    try:
-        account = Account.objects.get(email=request.user.email)
-        member = Member.objects.get(account=account)
-    except (Account.DoesNotExist, Member.DoesNotExist):
-        messages.error(request, "ไม่พบข้อมูลสมาชิก")
-        return redirect('login')
+    
+    account = get_object_or_404(Account, email=request.user.email)
+    member = get_object_or_404(Member, account=account)
 
     if member.role != Member.Role.ADMIN:
         messages.error(request, "คุณไม่มีสิทธิ์เข้าถึงหน้านี้")
@@ -475,7 +450,6 @@ def approve_club_request(request, request_id):
 
     club_request = ClubRequest.objects.get(id=request_id)
     account = club_request.requested_by
-
     club = Club.objects.create(
         name=club_request.name,
         description=club_request.description,
@@ -483,18 +457,13 @@ def approve_club_request(request, request_id):
         image=club_request.image,
         leader=account
     )
-
     club_request.status = 'APPROVED'
     club_request.save()
 
-    try:
-        member = Member.objects.get(account=account)
-        member.role = Member.Role.LEADER
-        member.clubs.add(club)
-        member.save()
-    except Member.DoesNotExist:
-        messages.error(request, "ไม่พบข้อมูลสมาชิกของผู้ขอ")
-        return redirect('admin')
+    member = get_object_or_404(Member, account=account)
+    member.role = Member.Role.LEADER
+    member.clubs.add(club)
+    member.save()
 
     messages.success(request, f"อนุมัติชมรม {club_request.name} เรียบร้อย ผู้ใช้กลายเป็น LEADER แล้ว")
     return redirect('admin')
